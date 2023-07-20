@@ -1,27 +1,49 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
-import CRoutes from './routes/index'
+import React, { useState } from 'react';
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined
+} from '@ant-design/icons';
+import { Layout, Menu, Button, theme } from 'antd';
+import Routes from './routes';
+import SiderCustom from './components/Layout/SiderCustom';
 
-const NotFound = React.lazy(() => import('./pages/404'));
+const { Header, Content } = Layout;
 
-const Loading = () => {
+const App: React.FC = () => {
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   return (
-    <div>加载中。。。</div>
-  )
-}
-
-const App: React.FC = () => (
-  <Router>
-    <div>
-      <Link to="/">
-          <button>to: index</button>
-      </Link>
-      <Link to="/login">
-          <button>to: login</button>
-      </Link>
-    </div>
-    <CRoutes></CRoutes>
-  </Router>
-);
+    <Layout className='h-full'>
+      <SiderCustom collapsed={collapsed}></SiderCustom>
+      <Layout>
+        <Header style={{ padding: 0, background: colorBgContainer }}>
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: '16px',
+              width: 64,
+              height: 64,
+            }}
+          />
+        </Header>
+        <Content
+          style={{
+            margin: '24px 16px',
+            padding: 24,
+            minHeight: 280,
+            background: colorBgContainer,
+          }}
+        >
+          <Routes></Routes>
+        </Content>
+      </Layout>
+    </Layout>
+  );
+};
 
 export default App;

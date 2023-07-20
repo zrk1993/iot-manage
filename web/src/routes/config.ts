@@ -12,7 +12,7 @@ export interface IMenu extends IMenuBase {
 }
 
 const menus: IMenu[] = [
-  { path: '/dashboard', title: '首页', component: React.lazy(() => import('../pages/Home')) },
+  { path: '/', title: '首页', component: React.lazy(() => import('../pages/Home')) },
   { path: '/dashboard2', title: '首页2', component: React.lazy(() => import('../pages/Login')) },
   {
     path: '/device',
