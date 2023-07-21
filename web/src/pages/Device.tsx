@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'antd'
 
-const Home = () => {
+const Device = () => {
   const [num, setNum] = useState(0)
   const onClick = () => {
     setNum(num + 1)
@@ -9,10 +9,11 @@ const Home = () => {
   console.log(num)
   return (
     <div>
+      Device
       {num}
       <Button onClick={onClick}>+1</Button>
     </div>
   )
 }
 
-export default Home;
+export default Device;

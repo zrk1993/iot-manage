@@ -4,13 +4,14 @@ import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import routesConfig from '../../routes/config'
+import type IMenu from '../../routes/config'
 
 const { Sider } = Layout;
 type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(
-  label: React.ReactNode,
-  key: React.Key,
+  label: string,
+  key: string,
   icon?: React.ReactNode,
   children?: MenuItem[],
   type?: 'group',
@@ -24,7 +25,7 @@ function getItem(
   } as MenuItem;
 }
 
-const items: MenuItem[] = routesConfig.map(r => getItem(r.title, r.path, <MailOutlined />, r.subs?.map(v => getItem(v.title, v.path))));
+const items: MenuItem[] = routesConfig.map(r => getItem(r.title!, r.path!, <MailOutlined />, r.children?.map((v: any) => getItem(v.title, v.path!))));
 
 interface IProps {
   collapsed: boolean
