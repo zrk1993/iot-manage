@@ -4,7 +4,7 @@ import {
   MenuUnfoldOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
-import Routes from './routes';
+import { Outlet, Link } from "react-router-dom";
 import SiderCustom from './components/Layout/SiderCustom';
 
 const { Header, Content } = Layout;
@@ -39,7 +39,7 @@ const App: React.FC = () => {
             background: colorBgContainer,
           }}
         >
-          <Routes></Routes>
+          <Outlet />
         </Content>
       </Layout>
     </Layout>

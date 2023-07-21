@@ -13,22 +13,22 @@ export interface IMenu extends IMenuBase {
 
 const menus: IMenu[] = [
   { path: '/', title: '首页', component: React.lazy(() => import('../pages/Home')) },
-  { path: '/dashboard2', title: '首页2', component: React.lazy(() => import('../pages/Login')) },
+  { path: '/dashboard2', title: '首页2', component: React.lazy(() => import('../pages/Home')) },
   {
     path: '/device',
     title: '设备',
     icon: 'scan',
     subs: [
-      { path: '/device/index', title: '设备3', component: React.lazy(() => import('../pages/Home')) },
+      { path: '/device/index2', title: '设备3', component: React.lazy(() => import('../pages/Home')) },
     ]
   },
   {
-    path: '/device',
-    title: '设备',
+    path: '/device2',
+    title: '设备2',
     icon: 'scan',
     subs: [
-      { path: '/device/index', title: '设备', component: React.lazy(() => import('../pages/Home')) },
-      { path: '/device/index', title: '设备2', component: React.lazy(() => import('../pages/Home')) },
+      { path: '/device/index3', title: '设备', component: React.lazy(() => import('../pages/Home')) },
+      { path: '/device/index4', title: '设备2', component: React.lazy(() => import('../pages/Home')) },
     ]
   }
 ]

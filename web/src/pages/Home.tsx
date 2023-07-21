@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Button } from 'antd'
 
-const view = () => {
+const SiderCustom = () => {
+  const [num, setNum] = useState(0)
+  const onClick = () => {
+    setNum(num + 1)
+  }
+  console.log(num)
   return (
-    <div>home</div>
+    <div>
+      {num}
+      <Button onClick={onClick}>+1</Button>
+    </div>
   )
 }
 
-export default view;
+export default SiderCustom;

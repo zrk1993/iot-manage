@@ -11,7 +11,7 @@ const Loading = () => {
 const createRoute = (r: IMenu) => {
   const Comp = r.component!
   return (
-    <Route path={r.path} element={
+    <Route key={r.path} path={r.path} element={
       <React.Suspense fallback={<Loading></Loading>}>
         <Comp />
       </React.Suspense>

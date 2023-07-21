@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
-const { Header, Sider, Content } = Layout;
+import { useNavigate } from 'react-router-dom';
+import routesConfig from '../../routes/config'
 
+const { Sider } = Layout;
 type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(
@@ -22,28 +24,7 @@ function getItem(
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
-  getItem('Navigation One', 'sub1', <MailOutlined />, [
-    getItem('Option 1', '1'),
-    getItem('Option 2', '2'),
-    getItem('Option 3', '3'),
-    getItem('Option 4', '4'),
-  ]),
-  getItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
-    getItem('Option 5', '5'),
-    getItem('Option 6', '6'),
-    getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
-  ]),
-  getItem('Navigation Three', 'sub4', <SettingOutlined />, [
-    getItem('Option 9', '9'),
-    getItem('Option 10', '10'),
-    getItem('Option 11', '11'),
-    getItem('Option 12', '12'),
-  ]),
-];
-
-// submenu keys of first level
-const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
+const items: MenuItem[] = routesConfig.map(r => getItem(r.title, r.path, <MailOutlined />, r.subs?.map(v => getItem(v.title, v.path))));
 
 interface IProps {
   collapsed: boolean
@@ -51,24 +32,20 @@ interface IProps {
 
 const App = (props: IProps) => {
   const { collapsed } = props;
-  const [openKeys, setOpenKeys] = useState(['sub1']);
+  const navigate = useNavigate();
 
-  const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
-    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
-    if (rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
-      setOpenKeys(keys);
-    } else {
-      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-    }
+  const onClick: MenuProps['onClick'] = (v) => {
+    navigate(v.key)
   };
+  console.log('1')
 
   return (
     <Sider trigger={null} collapsible collapsed={collapsed} theme="light" className="bg-white">
       <div className="demo-logo-vertical" />
       <Menu
+        className="h-full"
         mode="inline"
-        openKeys={openKeys}
-        onOpenChange={onOpenChange}
+        onClick={onClick}
         items={items}
       />
     </Sider>
