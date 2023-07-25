@@ -8,7 +8,7 @@ const Device = () => {
   }
   console.log(num)
   return (
-    <div className=''>
+    <div className='text-xs'>
       Device
       {num}
       <Button onClick={onClick}>+1</Button>
