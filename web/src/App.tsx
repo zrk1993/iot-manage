@@ -6,11 +6,7 @@ import routes from './routes/config'
 const App: React.FC = () => {
   const Element = useRoutes(routes)
 
-  return (
-    <>
-      {Element}
-    </>
-  )
+  return <>{Element}</>
 }
 
 export default App

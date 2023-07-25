@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'antd'
 
@@ -14,7 +14,7 @@ const Home = () => {
 
   console.log(num)
   return (
-    <div>
+    <div className='h-full w-full'>
       {num}
       <Button onClick={onClick}>+1</Button>
       <Button onClick={onClick2}>+1</Button>
@@ -22,4 +22,4 @@ const Home = () => {
   )
 }
 
-export default Home;
+export default Home

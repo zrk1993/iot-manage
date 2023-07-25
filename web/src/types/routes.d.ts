@@ -1,8 +1,8 @@
-import type { IndexRouteObject, NonIndexRouteObject } from "react-router";
+import type { IndexRouteObject, NonIndexRouteObject } from 'react-router'
 
 type CustomRouteFields = {
-  title?: string;
-  icon?: string;
+  title?: string
+  icon?: string
 }
 
 type AppIndexRouteObject = IndexRouteObject & CustomRouteFields
@@ -12,5 +12,3 @@ type AppNonIndexRouteObject = Omit<NonIndexRouteObject, 'children'> &
   }
 
 export type RouteProps = AppIndexRouteObject | AppNonIndexRouteObject
-
-

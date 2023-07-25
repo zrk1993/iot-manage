@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { Button } from 'antd'
 
 const Device = () => {
@@ -8,7 +8,7 @@ const Device = () => {
   }
   console.log(num)
   return (
-    <div>
+    <div className=''>
       Device
       {num}
       <Button onClick={onClick}>+1</Button>
@@ -16,4 +16,4 @@ const Device = () => {
   )
 }
 
-export default Device;
+export default Device

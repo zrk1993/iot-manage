@@ -37,13 +37,13 @@ const SiderCustom = (props: IProps) => {
   const onClick: MenuProps['onClick'] = (v) => {
     navigate(v.key)
   };
+
   console.log('1')
 
   return (
-    <Sider trigger={null} collapsible collapsed={collapsed} theme="light" className="bg-white">
-      <div className="demo-logo-vertical" />
+    <Sider breakpoint="lg" trigger={null} collapsible collapsed={collapsed} theme="light" className="bg-white h-full">
       <Menu
-        className="h-full"
+        className="h-screen"
         mode="inline"
         onClick={onClick}
         items={items}
