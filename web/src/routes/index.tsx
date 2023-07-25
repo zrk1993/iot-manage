@@ -1,6 +1,12 @@
-import { createBrowserRouter } from 'react-router-dom'
-import config from './config'
+import React, { FC, Fragment, Suspense } from 'react'
+import { Spin } from 'antd'
 
-const router = createBrowserRouter(config)
-
-export default router
+export function lazyLoad(Comp: React.LazyExoticComponent<any>, { fallback }: { fallback?: React.ReactNode } = {}) {
+  return (
+    <Suspense fallback={
+      fallback ? fallback : <Spin size="large" className="flex items-center justify-center"></Spin>
+    }>
+      <Comp/>
+    </Suspense>
+  )
+}
