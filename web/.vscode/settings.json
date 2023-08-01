@@ -35,7 +35,6 @@
   "[scss]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "liveServer.settings.port": 5502,
   "css.lint.unknownAtRules": "ignore",
   "editor.quickSuggestions": {
     "strings": true

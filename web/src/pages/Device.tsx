@@ -1,19 +1,15 @@
 import React, { useState } from 'react'
 import { Button } from 'antd'
 
-const Device = () => {
-  const [num, setNum] = useState(0)
-  const onClick = () => {
-    setNum(num + 1)
-  }
-  console.log(num)
+function MyComponent() {
+  // Create reference to store the DOM element containing the animation
+  const el = React.useRef(null)
+
   return (
-    <div className='text-xs'>
-      Device
-      {num}
-      <Button onClick={onClick}>+1</Button>
+    <div className='App'>
+      <textarea ref={el} />
     </div>
   )
 }
 
-export default Device
+export default MyComponent
