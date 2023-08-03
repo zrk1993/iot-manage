@@ -1,4 +1,4 @@
-import React, { FC, Fragment, Suspense } from 'react'
+import React, { Suspense } from 'react'
 import { Spin } from 'antd'
 
 export function lazyLoad(

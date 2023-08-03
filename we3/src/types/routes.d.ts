@@ -1,8 +1,8 @@
 import type { IndexRouteObject, NonIndexRouteObject } from 'react-router'
 
 type CustomRouteFields = {
-  title?: string
-  icon?: string
+  name?: string
+  icon?: string | JSX.Element
 }
 
 type AppIndexRouteObject = IndexRouteObject & CustomRouteFields

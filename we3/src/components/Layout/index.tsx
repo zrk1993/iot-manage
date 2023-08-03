@@ -1,27 +1,26 @@
+import { Outlet, Link } from 'react-router-dom'
 import {
-  CaretDownFilled,
-  DoubleRightOutlined,
   GithubFilled,
   InfoCircleFilled,
   LogoutOutlined,
-  PlusCircleFilled,
-  QuestionCircleFilled,
-  SearchOutlined
+  QuestionCircleFilled
 } from '@ant-design/icons'
 import type { ProSettings } from '@ant-design/pro-components'
-import {
-  PageContainer,
-  ProCard,
-  ProConfigProvider,
-  ProLayout,
-  SettingDrawer
-} from '@ant-design/pro-components'
-import { Button, ConfigProvider, Divider, Dropdown, Input, Popover, theme } from 'antd'
-import React, { useState } from 'react'
-import defaultProps from './defaultProps'
+import { PageContainer, ProCard, ProConfigProvider, ProLayout } from '@ant-design/pro-components'
+import { Dropdown } from 'antd'
+import { useState } from 'react'
+import routes from '@/routes/config'
+import { RouteProps } from '@/types/routes'
 
-export default () => {
-  const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
+const parseRoute = (r: RouteProps[]) => {
+  return r
+    .filter(v => v.children)
+    .map(v => v.children?.filter(c => c.name))
+    .flat(1)
+}
+
+const Layout = () => {
+  const [settings] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
     layout: 'mix',
     splitMenus: false,
@@ -32,16 +31,16 @@ export default () => {
     fixedHeader: false
   })
 
-  const [pathname, setPathname] = useState('/list/sub-page/sub-sub-page1')
-
+  const [pathname, setPathname] = useState('/dashboard')
   if (typeof document === 'undefined') {
     return <div />
   }
+
   return (
     <ProConfigProvider hashed={false}>
       <ProLayout
         prefixCls='my-prefix'
-        {...defaultProps}
+        route={{ path: '/', routes: parseRoute(routes) }}
         location={{
           pathname
         }}
@@ -52,7 +51,7 @@ export default () => {
           src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
           size: 'small',
           title: '七妮妮',
-          render: (props, dom) => {
+          render: (_, dom) => {
             return (
               <Dropdown
                 menu={{
@@ -81,13 +80,14 @@ export default () => {
         }}
         onMenuHeaderClick={e => console.log(e)}
         menuItemRender={(item, dom) => (
-          <div
+          <Link
+            to={item?.path || '/'}
             onClick={() => {
-              setPathname(item.path || '/welcome')
+              setPathname(item.path || '/')
             }}
           >
             {dom}
-          </div>
+          </Link>
         )}
         {...settings}
       >
@@ -98,24 +98,12 @@ export default () => {
               minHeight: 800
             }}
           >
-            <div />
+            <Outlet></Outlet>
           </ProCard>
         </PageContainer>
-
-        <SettingDrawer
-          pathname={pathname}
-          enableDarkTheme
-          getContainer={(e: any) => {
-            if (typeof window === 'undefined') return e
-            return document.getElementById('test-pro-layout')
-          }}
-          settings={settings}
-          onSettingChange={changeSetting => {
-            setSetting(changeSetting)
-          }}
-          disableUrlParams={false}
-        />
       </ProLayout>
     </ProConfigProvider>
   )
 }
+
+export default Layout

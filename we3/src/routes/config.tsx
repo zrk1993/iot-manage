@@ -1,56 +1,58 @@
 import React from 'react'
+import { Link, Navigate } from 'react-router-dom'
 import { RouteProps } from '@/types/routes'
 import { lazyLoad } from './index'
 
-const Layout = lazyLoad(
-  React.lazy(() => import('@/components/Layout/index')),
-  { fallback: <div></div> }
-)
+import Layout from '@/components/Layout/index'
 
 const routes: RouteProps[] = [
   {
     path: '/',
-    title: '首页',
-    index: true,
-    element: lazyLoad(React.lazy(() => import('@/pages/Home')))
-  },
-  {
-    path: '/dashboard2',
-    title: '首页2',
-    element: lazyLoad(React.lazy(() => import('@/pages/Home')))
-  },
-  {
-    path: '/device',
-    title: '设备',
-    icon: 'scan',
-    element: Layout,
+    name: 'dashboard',
+    element: <Layout></Layout>,
     children: [
       {
-        path: '/device/index2',
-        title: '设备3',
+        path: '/',
         index: true,
-        element: lazyLoad(React.lazy(() => import('@/pages/Home')))
-      }
-    ]
-  },
-  {
-    path: '/device2',
-    title: '设备2',
-    icon: 'scan',
-    element: Layout,
-    children: [
-      {
-        path: '/device2/index3',
-        title: '设备',
-        index: true,
-        element: lazyLoad(React.lazy(() => import('@/pages/Device')))
+        element: <Navigate to='dashboard' />
       },
       {
-        path: '/device2/index4',
-        title: '设备2',
+        path: 'dashboard',
+        name: 'dashboard',
         element: lazyLoad(React.lazy(() => import('@/pages/Home')))
+      },
+      {
+        path: 'device',
+        name: '设备',
+        icon: 'scan',
+        children: [
+          {
+            path: 'list',
+            name: '设备',
+            index: true,
+            element: lazyLoad(React.lazy(() => import('@/pages/Device')))
+          },
+          {
+            path: 'detail',
+            name: '设备2',
+            element: lazyLoad(React.lazy(() => import('@/pages/Device')))
+          }
+        ]
+      },
+      {
+        path: '/*',
+        element: (
+          <Link to={'/'}>
+            <span>Back Home</span>
+          </Link>
+        )
       }
     ]
+  },
+  {
+    path: '/login',
+    name: 'login',
+    element: lazyLoad(React.lazy(() => import('@/pages/Login')))
   }
 ]
 
