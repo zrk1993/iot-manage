@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "aedes": "^0.50.0",
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
+    "koast": "git+https://github.com/zrk1993/koast.git",
+    "mqtt": "^5.0.2"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.4",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
