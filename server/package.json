@@ -7,10 +7,14 @@
     "aedes": "^0.50.0",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.1",
     "koast": "git+https://github.com/zrk1993/koast.git",
-    "mqtt": "^5.0.2"
+    "mqtt": "^5.0.2",
+    "sqlite": "^5.0.1",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/koa": "^2.13.4",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2"

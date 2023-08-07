@@ -92,12 +92,7 @@ const Layout = () => {
         {...settings}
       >
         <PageContainer>
-          <ProCard
-            style={{
-              height: '200vh',
-              minHeight: 800
-            }}
-          >
+          <ProCard>
             <Outlet></Outlet>
           </ProCard>
         </PageContainer>

@@ -11,7 +11,9 @@ export function lazyLoad(
         fallback ? (
           fallback
         ) : (
-          <Spin size='large' className='h-full flex items-center justify-center'></Spin>
+          <div className='h-screen flex items-center justify-center'>
+            <Spin size='large'></Spin>
+          </div>
         )
       }
     >
