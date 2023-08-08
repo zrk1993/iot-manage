@@ -1,10 +1,12 @@
-import { useRoutes } from 'react-router-dom'
-import routes from './routes/config'
+import AuthRouter from './routes/authRouter'
+import Router from './routes/index'
 
-function App() {
-  const element = useRoutes(routes)
-
-  return <>{element}</>
+const App = () => {
+  return (
+    <AuthRouter>
+      <Router />
+    </AuthRouter>
+  )
 }
 
 export default App

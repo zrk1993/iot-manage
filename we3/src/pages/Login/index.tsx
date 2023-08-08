@@ -1,25 +1,29 @@
 import { login } from '@/api/user'
+import { useDispatch } from '@/store/index'
+import { setToken } from '@/store/reducers/globalSlice'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { LoginForm, ProFormText } from '@ant-design/pro-components'
-import { message } from 'antd'
+import { message as antdMessage } from 'antd'
 import { useNavigate } from 'react-router-dom'
 
 import './index.scss'
 
 const Login = () => {
-  const navigater = useNavigate()
-  const [messageApi, contextHolder] = message.useMessage()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [messageApi, contextHolder] = antdMessage.useMessage()
 
   const onFinish = async (formData: any) => {
     try {
       const {
-        data: { code, message }
+        data: { code, message, data }
       } = await login(formData)
       if (code != 0) {
         messageApi.error(message)
         return false
       }
-      navigater('/')
+      dispatch(setToken(data))
+      navigate('/', { replace: true })
       return true
     } catch (error) {
       console.error(error)

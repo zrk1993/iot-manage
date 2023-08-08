@@ -1,23 +1,9 @@
-import React, { Suspense } from 'react'
-import { Spin } from 'antd'
+import { useRoutes } from 'react-router-dom'
 
-export function lazyLoad(
-  Comp: React.LazyExoticComponent<any>,
-  { fallback }: { fallback?: React.ReactNode } = {}
-) {
-  return (
-    <Suspense
-      fallback={
-        fallback ? (
-          fallback
-        ) : (
-          <div className='h-screen flex items-center justify-center'>
-            <Spin size='large'></Spin>
-          </div>
-        )
-      }
-    >
-      <Comp />
-    </Suspense>
-  )
+import routes from './config'
+
+const Router = () => {
+  return useRoutes(routes)
 }
+
+export default Router

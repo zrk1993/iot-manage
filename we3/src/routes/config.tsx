@@ -1,9 +1,9 @@
+import Layout from '@/components/Layout/index'
+import { RouteProps } from '@/types/routes'
 import React from 'react'
 import { Link, Navigate } from 'react-router-dom'
-import { RouteProps } from '@/types/routes'
-import { lazyLoad } from './index'
 
-import Layout from '@/components/Layout/index'
+import lazyLoad from './lazyLoad'
 
 const routes: RouteProps[] = [
   {
