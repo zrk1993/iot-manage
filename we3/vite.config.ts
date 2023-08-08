@@ -1,7 +1,7 @@
-import { defineConfig, splitVendorChunkPlugin } from 'vite'
-import { visualizer } from 'rollup-plugin-visualizer'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import { visualizer } from 'rollup-plugin-visualizer'
+import { defineConfig, splitVendorChunkPlugin } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,6 +9,15 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
+    }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000', // 目标代理地址
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '') // 重写请求路径，去掉 /api 前缀
+      }
     }
   }
 })
