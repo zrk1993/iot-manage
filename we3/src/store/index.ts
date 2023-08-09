@@ -1,32 +1,19 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import {
   TypedUseSelectorHook,
   useDispatch as useReduxDispatch,
   useSelector as useReduxSelector
 } from 'react-redux'
-import { persistReducer, persistStore } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 
 import globalSlice from './reducers/globalSlice'
 import userSlice from './reducers/userSlice'
 
-const reducer = combineReducers({
-  globalSlice,
-  userSlice
-})
-
-const persistConfig = {
-  key: 'redux-state',
-  storage: storage,
-  whitelist: ['globalSlice']
-}
-const persistReducerConfig = persistReducer(persistConfig, reducer)
-
 export const store = configureStore({
-  reducer: persistReducerConfig
+  reducer: {
+    globalSlice,
+    userSlice
+  }
 })
-
-export const persistor = persistStore(store)
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

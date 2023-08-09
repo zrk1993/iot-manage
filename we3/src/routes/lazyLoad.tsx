@@ -11,9 +11,15 @@ export default function lazyLoad(
         fallback ? (
           fallback
         ) : (
-          <div className='text-center'>
-            <Spin></Spin>
-          </div>
+          <Spin
+            size='large'
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%'
+            }}
+          ></Spin>
         )
       }
     >
