@@ -7,7 +7,7 @@ export async function login(data: object) {
   })
 }
 
-export async function info() {
+export async function getUserInfo() {
   return request('/user/info', {
     method: 'GET'
   })

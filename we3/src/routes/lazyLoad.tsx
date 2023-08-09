@@ -11,15 +11,9 @@ export default function lazyLoad(
         fallback ? (
           fallback
         ) : (
-          <Spin
-            size='large'
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '100%'
-            }}
-          ></Spin>
+          <div className='fixed top-0 left-0 h-full w-full text-center flex items-center justify-center'>
+            <Spin size='large'></Spin>
+          </div>
         )
       }
     >

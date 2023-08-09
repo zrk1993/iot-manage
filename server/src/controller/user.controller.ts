@@ -17,19 +17,19 @@ import { generateToken, verifyToken } from '../utils/auth-jwt'
 
 @Controller('/user')
 export default class User {
-  @Post('/info')
-  @BodySchame({
-    username: joi.string().required(),
-    password: joi.string().required()
-  })
+  @Get('/info')
   async info(@Ctx() ctx: Context) {
-    const { Authorization } = ctx.headers
-    const username = verifyToken(Authorization as string)
-    const user = await userModel.getUserByName(username)
-    if (!user) {
+    const { authorization } = ctx.headers
+    try {
+      const data = verifyToken(authorization as string)
+      const user = await userModel.getUserByName(data)
+      if (!user) {
+        return { code: 5001, message: '请重新登录' }
+      }
+      return { code: 0, data: { username: user.username } }
+    } catch (error) {
       return { code: 5001, message: '请重新登录' }
     }
-    return { code: 0, data: { username: user.username } }
   }
 
   @Post('/login')

@@ -9,16 +9,12 @@ export function generateToken(data: string) {
     {
       data
     },
-    'secret',
+    'secret2',
     { expiresIn: '7d' }
   )
 }
 
-export function verifyToken(token: string): string {
-  try {
-    const decoded = jwt.verify(token, 'secret')
-    return decoded as string
-  } catch (err) {
-    console.error(err)
-  }
+export function verifyToken(token: string) {
+  const decode: any = jwt.verify(token, 'secret2')
+  return decode.data
 }

@@ -23,6 +23,9 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     '@typescript-eslint/no-explicit-any': 'off',
-    'eslint-disable react-refresh/only-export-components': 'off'
+    'eslint-disable react-refresh/only-export-components': 'off',
+
+    // react (https://github.com/jsx-eslint/eslint-plugin-react)
+    'react-hooks/exhaustive-deps': 'off'
   }
 }

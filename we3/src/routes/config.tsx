@@ -2,7 +2,7 @@ import Layout from '@/components/Layout/index'
 import { RouteProps } from '@/types/routes'
 import { AlertFilled, PieChartFilled } from '@ant-design/icons'
 import React from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import lazyLoad from './lazyLoad'
 
@@ -14,10 +14,6 @@ const routes: RouteProps[] = [
       {
         path: '/',
         index: true,
-        element: <Navigate to='dashboard' />
-      },
-      {
-        path: 'dashboard',
         icon: <PieChartFilled />,
         name: '控制面板',
         element: lazyLoad(React.lazy(() => import('@/pages/Home')))

@@ -1,12 +1,7 @@
-import AuthRouter from './routes/authRouter'
 import Router from './routes/index'
 
 const App = () => {
-  return (
-    <AuthRouter>
-      <Router />
-    </AuthRouter>
-  )
+  return <Router />
 }
 
 export default App

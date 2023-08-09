@@ -1,4 +1,5 @@
 import routes from '@/routes/config'
+import { useSelector } from '@/store'
 import { RouteProps } from '@/types/routes'
 import {
   GithubFilled,
@@ -22,6 +23,9 @@ const parseRoute = (r: RouteProps[]) => {
 }
 
 const Layout = () => {
+  const nickname = useSelector(state => state.userSlice.nickname)
+  const avatar = useSelector(state => state.userSlice.avatar)
+
   const [settings] = useState<Partial<ProSettings> | undefined>({
     fixSiderbar: true,
     layout: 'mix',
@@ -33,7 +37,7 @@ const Layout = () => {
     fixedHeader: false
   })
 
-  const [pathname, setPathname] = useState('/dashboard')
+  const [pathname, setPathname] = useState('/')
   if (typeof document === 'undefined') {
     return <div />
   }
@@ -50,9 +54,9 @@ const Layout = () => {
           collapsedShowGroupTitle: true
         }}
         avatarProps={{
-          src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+          src: avatar,
           size: 'small',
-          title: '七妮妮',
+          title: nickname,
           render: (_, dom) => {
             return (
               <Dropdown
