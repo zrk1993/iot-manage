@@ -1,4 +1,5 @@
-import { Outlet, Link } from 'react-router-dom'
+import routes from '@/routes/config'
+import { RouteProps } from '@/types/routes'
 import {
   GithubFilled,
   InfoCircleFilled,
@@ -6,11 +7,12 @@ import {
   QuestionCircleFilled
 } from '@ant-design/icons'
 import type { ProSettings } from '@ant-design/pro-components'
-import { PageContainer, ProCard, ProConfigProvider, ProLayout } from '@ant-design/pro-components'
+import { PageContainer, ProConfigProvider, ProLayout } from '@ant-design/pro-components'
 import { Dropdown } from 'antd'
 import { useState } from 'react'
-import routes from '@/routes/config'
-import { RouteProps } from '@/types/routes'
+import { Link, Outlet } from 'react-router-dom'
+
+import './index.scss'
 
 const parseRoute = (r: RouteProps[]) => {
   return r
@@ -92,9 +94,7 @@ const Layout = () => {
         {...settings}
       >
         <PageContainer>
-          <ProCard>
-            <Outlet></Outlet>
-          </ProCard>
+          <Outlet></Outlet>
         </PageContainer>
       </ProLayout>
     </ProConfigProvider>

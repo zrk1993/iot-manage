@@ -1,5 +1,6 @@
 import Layout from '@/components/Layout/index'
 import { RouteProps } from '@/types/routes'
+import { AlertFilled, PieChartFilled } from '@ant-design/icons'
 import React from 'react'
 import { Link, Navigate } from 'react-router-dom'
 
@@ -8,7 +9,6 @@ import lazyLoad from './lazyLoad'
 const routes: RouteProps[] = [
   {
     path: '/',
-    name: 'dashboard',
     element: <Layout></Layout>,
     children: [
       {
@@ -18,26 +18,15 @@ const routes: RouteProps[] = [
       },
       {
         path: 'dashboard',
-        name: 'dashboard',
+        icon: <PieChartFilled />,
+        name: '控制面板',
         element: lazyLoad(React.lazy(() => import('@/pages/Home')))
       },
       {
         path: 'device',
-        name: '设备',
-        icon: 'scan',
-        children: [
-          {
-            path: 'list',
-            name: '设备',
-            index: true,
-            element: lazyLoad(React.lazy(() => import('@/pages/Device')))
-          },
-          {
-            path: 'detail',
-            name: '设备2',
-            element: lazyLoad(React.lazy(() => import('@/pages/Device')))
-          }
-        ]
+        icon: <AlertFilled />,
+        name: '设备管理',
+        element: lazyLoad(React.lazy(() => import('@/pages/Device')))
       },
       {
         path: '/*',

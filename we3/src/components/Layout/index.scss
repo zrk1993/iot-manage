@@ -1,0 +1,23 @@
+.ant-pro-page-container {
+  .ant-page-header {
+    padding-block-start: 6px;
+    padding-inline-start: 22px;
+  }
+  .ant-pro-page-container-children-container {
+    padding-block: 14px;
+    padding-inline-start: 26px;
+  }
+}
+
+@media (max-width: 767px) {
+  .ant-pro-page-container {
+    .ant-page-header {
+      padding-block-start: 6px;
+      padding-inline-start: 14px;
+    }
+    .ant-pro-page-container-children-container {
+      padding-block-start: 2px;
+      padding-inline-start: 16px;
+    }
+  }
+}
