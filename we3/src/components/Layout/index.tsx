@@ -1,6 +1,5 @@
 import routes from '@/routes/config'
 import { useSelector } from '@/store'
-import { RouteProps } from '@/types/routes'
 import {
   GithubFilled,
   InfoCircleFilled,
@@ -11,16 +10,9 @@ import type { ProSettings } from '@ant-design/pro-components'
 import { PageContainer, ProConfigProvider, ProLayout } from '@ant-design/pro-components'
 import { Dropdown } from 'antd'
 import { useState } from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 
 import './index.scss'
-
-const parseRoute = (r: RouteProps[]) => {
-  return r
-    .filter(v => v.children)
-    .map(v => v.children?.filter(c => c.name))
-    .flat(1)
-}
 
 const Layout = () => {
   const nickname = useSelector(state => state.userSlice.nickname)
@@ -37,7 +29,8 @@ const Layout = () => {
     fixedHeader: false
   })
 
-  const [pathname, setPathname] = useState('/')
+  const { pathname: defaultPathname } = useLocation()
+  const [pathname, setPathname] = useState(defaultPathname)
   if (typeof document === 'undefined') {
     return <div />
   }
@@ -46,7 +39,7 @@ const Layout = () => {
     <ProConfigProvider hashed={false}>
       <ProLayout
         prefixCls='my-prefix'
-        route={{ path: '/', routes: parseRoute(routes) }}
+        route={{ path: '/', routes: routes }}
         location={{
           pathname
         }}

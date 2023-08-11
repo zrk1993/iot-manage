@@ -26,6 +26,7 @@ module.exports = {
     'eslint-disable react-refresh/only-export-components': 'off',
 
     // react (https://github.com/jsx-eslint/eslint-plugin-react)
-    'react-hooks/exhaustive-deps': 'off'
+    'react-hooks/exhaustive-deps': 'off',
+    'react-refresh/only-export-components': 'off'
   }
 }

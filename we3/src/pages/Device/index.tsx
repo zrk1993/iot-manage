@@ -1,5 +1,2 @@
-const Device = () => {
-  return <div>Devic1e</div>
-}
-
-export default Device
+const a = () => <div>d</div>
+export default a

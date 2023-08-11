@@ -29,7 +29,7 @@ const AuthRouter = (props: { children: JSX.Element }) => {
         console.error(error)
       }
     }
-    getInfo()
+    if (token) getInfo()
   }, [token])
 
   if (pathname === '/login') return props.children
