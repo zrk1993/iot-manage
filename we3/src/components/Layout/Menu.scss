@@ -1,0 +1,14 @@
+.ant-menu {
+  height: 100%;
+  padding-top: 4px;
+  background: transparent;
+  .ant-menu-item {
+    margin-inline: 6px;
+    padding-inline: calc(50% - 12px - 6px);
+    width: calc(100% - 18px);
+  }
+  .ant-menu-item-selected {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.95);
+  }
+}
