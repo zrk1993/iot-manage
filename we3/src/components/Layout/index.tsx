@@ -1,11 +1,6 @@
 import routes from '@/routes/config'
 import { useSelector } from '@/store'
-import {
-  GithubFilled,
-  InfoCircleFilled,
-  LogoutOutlined,
-  QuestionCircleFilled
-} from '@ant-design/icons'
+import { GithubFilled, InfoCircleFilled, LogoutOutlined, QuestionCircleFilled } from '@ant-design/icons'
 import type { ProSettings } from '@ant-design/pro-components'
 import { PageContainer, ProConfigProvider, ProLayout } from '@ant-design/pro-components'
 import { Dropdown } from 'antd'

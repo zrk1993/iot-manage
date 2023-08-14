@@ -1,2 +1,1 @@
-const a = () => <div>d</div>
-export default a
+export default () => <div>device</div>
