@@ -38,7 +38,7 @@ export default function Test() {
           </Drawer>
         ) : (
           <div className={`sider ${collapsed ? 'collapsed' : ''}`}>
-            <ToggleIcon onClick={toggleCollapsed}></ToggleIcon>
+            <ToggleIcon onClick={toggleCollapsed} collapsed={collapsed}></ToggleIcon>
             <Menu collapsed={collapsed}></Menu>
           </div>
         )}

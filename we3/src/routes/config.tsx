@@ -13,7 +13,7 @@ const routes: RouteProps[] = [
     element: lazyLoad(React.lazy(() => import('@/pages/home')))
   },
   {
-    path: 'device',
+    path: '/device',
     icon: <AlertFilled />,
     name: '设备管理',
     element: lazyLoad(React.lazy(() => import('@/pages/device')))

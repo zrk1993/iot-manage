@@ -1,7 +1,8 @@
 import routes from '@/routes/config'
 import { Menu as AntdMenu } from 'antd'
 import type { MenuProps } from 'antd'
-import { FC } from 'react'
+import { FC, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import './Menu.scss'
 
@@ -16,9 +17,18 @@ const items: MenuItem[] = routes.map(v => {
 })
 
 const Menu: FC<{ collapsed: boolean }> = props => {
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const [current, setCurrent] = useState(pathname)
+
+  const onClick: MenuProps['onClick'] = e => {
+    setCurrent(e.key)
+    navigate(e.key)
+  }
+
   return (
     <div className='h-full'>
-      <AntdMenu defaultSelectedKeys={['/']} mode='inline' inlineCollapsed={props.collapsed} items={items} />
+      <AntdMenu onClick={onClick} defaultSelectedKeys={[current]} inlineCollapsed={props.collapsed} mode='inline' items={items} />
     </div>
   )
 }

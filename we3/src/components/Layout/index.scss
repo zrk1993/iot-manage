@@ -1,30 +1,15 @@
-.my-prefix-layout {
+.sider {
   height: 100%;
-  .ant-pro-page-container {
-    height: 100%;
-    .ant-page-header {
-      padding-block-start: 10px;
-      padding-block-end: 0px;
-      padding-inline-start: 26px;
-    }
-    .ant-pro-page-container-children-container {
-      padding-block: 14px;
-      padding-inline-start: 26px;
-    }
-  }
-}
-
-@media (max-width: 767px) {
-  .my-prefix-layout {
-    .ant-pro-page-container {
-      .ant-page-header {
-        padding-block-start: 6px;
-        padding-inline-start: 14px;
-      }
-      .ant-pro-page-container-children-container {
-        padding-block-start: 2px;
-        padding-inline-start: 16px;
-      }
-    }
+  position: relative;
+  transition: all 0.2s;
+  flex: 0 0 215px;
+  max-width: 215px;
+  min-width: 215px;
+  width: 215px;
+  &.collapsed {
+    flex: 0 0 80px;
+    max-width: 80px;
+    min-width: 80px;
+    width: 80px;
   }
 }
