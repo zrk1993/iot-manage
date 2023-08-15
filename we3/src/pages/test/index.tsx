@@ -1,49 +1,25 @@
-import Header from '@/components/Layout/Header'
-import Menu from '@/components/Layout/Menu'
-import ToggleIcon from '@/components/Layout/ToggleIcon'
-import { isMobile } from '@/utils/tools'
-import { Drawer } from 'antd'
-import { useState } from 'react'
-
-import './index.scss'
+import { useEffect, useState } from 'react'
 
 export default function Test() {
-  const [collapsed, setCollapsed] = useState(false)
-  const [open, setOpen] = useState(false)
+  const [data, setData] = useState({
+    page: 1,
+    size: 10
+  })
 
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed)
+  useEffect(() => {
+    console.log(data)
+  }, [data])
+
+  const onClick = () => {
+    setData({
+      ...data,
+      page: data.page + 1
+    })
   }
-  const showDrawer = () => {
-    setOpen(true)
-  }
-  const hideDrawer = () => {
-    setOpen(false)
-  }
+
   return (
-    <div className='h-full flex flex-col'>
-      <Header showDrawer={showDrawer}></Header>
-      <div className='flex-1 flex'>
-        {isMobile() ? (
-          <Drawer
-            headerStyle={{ display: 'none' }}
-            bodyStyle={{ padding: 0 }}
-            maskClosable={true}
-            width={215}
-            placement='left'
-            open={open}
-            onClose={hideDrawer}
-          >
-            <Menu collapsed={collapsed}></Menu>
-          </Drawer>
-        ) : (
-          <div className={`sider ${collapsed ? 'collapsed' : ''}`}>
-            <ToggleIcon onClick={toggleCollapsed} collapsed={collapsed}></ToggleIcon>
-            <Menu collapsed={collapsed}></Menu>
-          </div>
-        )}
-        <div className='flex-1'>content</div>
-      </div>
+    <div>
+      1<span onClick={onClick}>ddd</span>
     </div>
   )
 }

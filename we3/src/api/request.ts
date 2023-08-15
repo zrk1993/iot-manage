@@ -1,5 +1,6 @@
 import { store } from '@/store'
 import axios, { AxiosError } from 'axios'
+import type { AxiosRequestConfig } from 'axios'
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL,
@@ -17,4 +18,18 @@ instance.interceptors.request.use(
   }
 )
 
-export default instance
+type TResponse<T> = {
+  code: number
+  message: string
+  data: T
+}
+
+const request = async (url: string, config?: AxiosRequestConfig): Promise<TResponse<any>> => {
+  return new Promise((resolve, reject) => {
+    instance(url, config)
+      .then(res => resolve(res.data as TResponse<any>))
+      .catch(reject)
+  })
+}
+
+export default request

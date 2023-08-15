@@ -17,9 +17,7 @@ const AuthRouter = (props: { children: JSX.Element }) => {
   useEffect(() => {
     const getInfo = async () => {
       try {
-        const {
-          data: { code, data }
-        } = await getUserInfo()
+        const { code, data } = await getUserInfo()
         if (code != 0) {
           navigate('/login', { replace: true })
         } else {

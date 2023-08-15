@@ -1,3 +1,5 @@
+import { db } from '../utils/db'
+
 type TDevice = {
   name: string
   key: string
@@ -6,4 +8,8 @@ type TDevice = {
   online: boolean
 }
 
-export async function page(params: { page: number; size: number }) {}
+export async function page(params: { page: number; size: number }) {
+  const count = params.size || 10
+  const offset = (params.page - 1) * params.size || 0
+  return await db.all(`SELECT * FROM t_device LIMIT ? OFFSET ?`, [count, offset])
+}

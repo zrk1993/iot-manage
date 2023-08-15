@@ -43,10 +43,8 @@ export default function Test() {
             <Menu collapsed={collapsed}></Menu>
           </div>
         )}
-        <div className='flex-1'>
-          <div>
-            <Outlet></Outlet>
-          </div>
+        <div className='flex-1 p-5'>
+          <Outlet />
         </div>
       </div>
     </div>

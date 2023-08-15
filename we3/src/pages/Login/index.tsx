@@ -15,9 +15,7 @@ const Login: React.FC = () => {
   const onFinish = async (formData: any) => {
     setLoading(true)
     try {
-      const {
-        data: { code, message, data }
-      } = await login(formData)
+      const { code, message, data } = await login(formData)
       if (code != 0) {
         messageApi.error(message)
         return
