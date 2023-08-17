@@ -3,6 +3,7 @@ import Aedes from 'aedes'
 import { createServer } from 'net'
 import bemfa_mqtt from './bemfa_mqtt'
 import * as deviceModel from '../model/device.model'
+import logger from '../utils/logger'
 
 const port = 9501
 const aedes = new Aedes()
@@ -41,7 +42,7 @@ aedes.on('clientReady', async client => {
     })
     if (device.bemfa_iot && device.bemfa_topic) {
       bemfa_mqtt.subscribe(device.bemfa_topic, error => {
-        if (error) console.error(error)
+        if (error) logger.error(error)
       })
     }
   }
@@ -56,7 +57,7 @@ aedes.on('clientDisconnect', async client => {
     })
     if (device.bemfa_iot && device.bemfa_topic) {
       bemfa_mqtt.unsubscribe(device.bemfa_topic, err => {
-        if (err) console.error(err.message)
+        if (err) logger.error(err.message)
       })
     }
   }
@@ -65,7 +66,7 @@ aedes.on('clientDisconnect', async client => {
 const server = createServer(aedes.handle)
 
 server.listen(port, function () {
-  console.log('mqtt broker on port ', port)
+  logger.log('mqtt broker on port ', port)
 })
 
 export function getcClients(): Client[] {

@@ -2,6 +2,7 @@ import * as mqtt from 'mqtt'
 import broker from './broker'
 import config from '../config'
 import * as deviceModel from '../model/device.model'
+import logger from '../utils/logger'
 
 const client = mqtt.connect({
   host: 'bemfa.com',
@@ -10,12 +11,12 @@ const client = mqtt.connect({
 })
 
 client.on('error', err => {
-  console.error(err.message)
+  logger.error(err.message)
   process.exit()
 })
 
 client.on('connect', packet => {
-  console.log('bemfa mqtt connect ', packet.cmd)
+  logger.log('bemfa mqtt connect ', packet.cmd)
 })
 
 client.on('message', async function (topic, message) {
@@ -31,7 +32,7 @@ client.on('message', async function (topic, message) {
         retain: false
       },
       err => {
-        if (err) console.error(err.message)
+        if (err) logger.error(err.message)
       }
     )
   }

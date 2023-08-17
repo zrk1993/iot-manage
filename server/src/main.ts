@@ -5,6 +5,7 @@ import { openDb } from './utils/db'
 import config from './config'
 import './mqtt/broker'
 import './mqtt/bemfa_mqtt'
+import logger from './utils/logger'
 
 async function main() {
   await openDb()
@@ -12,11 +13,11 @@ async function main() {
   const app = new Koast({ proxy: true })
 
   app.useSwagger(routers)
-  console.log('swagger address http://localhost:' + config.SERVER_PORT + '/swagger-ui/index.html')
+  logger.info('swagger address http://localhost:' + config.SERVER_PORT + '/swagger-ui/index.html')
 
   app.useRouter(routers)
   app.listen(config.SERVER_PORT, () => {
-    console.log('server start on http://localhost:' + config.SERVER_PORT)
+    logger.info('server start on http://localhost:' + config.SERVER_PORT)
   })
 }
 
