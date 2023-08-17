@@ -26,12 +26,12 @@ const rootRouter: RouteProps[] = [
   {
     path: '/login',
     name: 'login',
-    element: lazyLoad(React.lazy(() => import('@/pages/login')))
+    element: lazyLoad(React.lazy(() => import('@/pages/login/index')))
   },
   {
     path: '/test',
     name: 'test',
-    element: lazyLoad(React.lazy(() => import('@/pages/test')))
+    element: lazyLoad(React.lazy(() => import('@/pages/test/index')))
   }
 ]
 
