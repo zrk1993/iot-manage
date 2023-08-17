@@ -1,6 +1,6 @@
 import { db } from '../utils/db'
 
-type TDevice = {
+export type TDevice = {
   id: string
   name: string
   product_type: string
@@ -10,7 +10,7 @@ type TDevice = {
   connect_time: string
   disconnect_time: string
   remote_address: string
-  bemfa_iot: boolean
+  bemfa_iot: number
   bemfa_topic: string
 }
 
@@ -41,4 +41,15 @@ export async function update(id: string, data: Partial<TDevice>) {
     .map(k => `${k}='${data[k]}'`)
     .join(',')
   return await db.run(`UPDATE t_device SET ${setStr} WHERE id = ?`, [id])
+}
+
+export async function add(data: TDevice) {
+  const ks = Object.keys(data)
+  return await db.run(
+    `INSERT INTO t_device (${ks.join(',')}) VALUES (${ks.map(k => `'${data[k]}'`).join(',')})`
+  )
+}
+
+export async function del(id: string) {
+  return await db.run(`DELETE FROM t_device WHERE id = ?`, id)
 }

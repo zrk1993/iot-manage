@@ -12,7 +12,11 @@ import {
   QuerySchame,
   BodySchame
 } from 'koast'
+import type { TDevice } from '../model/device.model'
 import * as deviceModel from '../model/device.model'
+import products from '../constant/products'
+import { addTopic, delTopic } from '../api/bemfa'
+import uuid from '../utils/uuid'
 
 @Controller('/device')
 export default class Device {
@@ -25,22 +29,43 @@ export default class Device {
 
   @Post('/add')
   @BodySchame({
-    username: joi.string().required(),
-    password: joi.string().required()
+    name: joi.string().required(),
+    product_type: joi.string().required(),
+    bemfa_iot: joi.string().required()
   })
-  async login(@Body() body: any) {}
+  async add(@Body() body: TDevice) {
+    body.id = uuid()
+    if (body.bemfa_iot == 1) {
+      body.bemfa_topic = body.id + products.find(v => v.type === body.product_type).code
+      const res = await addTopic(body.bemfa_topic, body.name)
+      if (res.code !== 0) {
+        return res
+      }
+    }
+    const r = await deviceModel.add(body)
+    return { code: 0, data: r }
+  }
 
   @Post('/edit')
-  @BodySchame({
-    username: joi.string().required(),
-    password: joi.string().required()
-  })
-  async edit(@Body() body: any) {}
+  async edit(@Body() body: TDevice) {
+    const r = await deviceModel.update(body.id, body)
+    return { code: 0, data: r }
+  }
 
   @Post('/del')
   @BodySchame({
-    username: joi.string().required(),
-    password: joi.string().required()
+    id: joi.string().required()
   })
-  async del(@Body() body: any) {}
+  async del(@Body() body: Pick<TDevice, 'id'>) {
+    const device = await deviceModel.getById(body.id)
+    if (!device) return { code: 5000 }
+    if (device.bemfa_iot == 1) {
+      const res = await delTopic(device.bemfa_topic)
+      if (res.code != 0) {
+        return res
+      }
+    }
+    const result = await deviceModel.del(device.id)
+    return { code: 0, data: result }
+  }
 }
