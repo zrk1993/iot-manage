@@ -3,7 +3,7 @@ import Aedes from 'aedes'
 import { createServer } from 'net'
 import * as deviceModel from '../model/device.model'
 
-const port = 1883
+const port = 9501
 const aedes = new Aedes()
 
 aedes.authenticate = function (client, username, password, callback) {
