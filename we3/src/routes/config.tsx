@@ -10,13 +10,13 @@ const routes: RouteProps[] = [
     index: true,
     icon: <PieChartFilled />,
     name: '控制面板',
-    element: lazyLoad(React.lazy(() => import('@/pages/home/index')))
+    element: lazyLoad(React.lazy(() => import('@/pages/home')))
   },
   {
     path: '/device',
     icon: <AlertFilled />,
     name: '设备管理',
-    element: lazyLoad(React.lazy(() => import('@/pages/device/index')))
+    element: lazyLoad(React.lazy(() => import('@/pages/device')))
   }
 ]
 
