@@ -15,7 +15,7 @@ log4js.configure({
   }
 })
 
-const logger = log4js.getLogger('app')
+const logger = log4js.getLogger()
 
 logger.level = 'info'
 
