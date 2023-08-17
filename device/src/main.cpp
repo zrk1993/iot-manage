@@ -40,7 +40,7 @@ void reconnect() {
 	while (!client.connected()) {
 		Serial.print("Attempting MQTT connection...");
 		// Attempt to connect
-		if (client.connect(ID_MQTT)) {
+		if (client.connect(ID_MQTT, topic.c_str(), "")) {
 			Serial.println("connected");
 			Serial.print("subscribe:");
 			Serial.println(topic);

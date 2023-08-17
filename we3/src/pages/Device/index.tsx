@@ -9,10 +9,9 @@ import QueryForm from './components/QueryForm'
 
 type TDevice = {
   name: string
-  key: string
-  topic: string
+  mac_address: string
   bemfa: boolean
-  online: boolean
+  status: string
 }
 
 const columns: ColumnsType<TDevice> = [
@@ -20,17 +19,18 @@ const columns: ColumnsType<TDevice> = [
     title: '设备',
     dataIndex: 'name',
     key: 'name',
-    render: text => <a>{text}</a>
+    render: (_, { name }) => <a>{name}</a>
   },
   {
-    title: 'Topic',
-    dataIndex: 'topic',
-    key: 'topic'
+    title: 'MAC',
+    dataIndex: 'mac_address',
+    key: 'mac_address',
+    render: (_, { mac_address }) => <>{mac_address.slice(-6)}</>
   },
   {
     title: '状态',
-    key: 'online',
-    dataIndex: 'online',
+    key: 'status',
+    dataIndex: 'status',
     filters: [
       {
         text: '在线',
@@ -41,17 +41,30 @@ const columns: ColumnsType<TDevice> = [
         value: '离线'
       }
     ],
-    render: (_, { online }) => {
-      const color = online ? 'geekblue' : 'green'
-      return <Tag color={color}>{online}</Tag>
+    render: (_, { status }) => {
+      let color = ''
+      let text = ''
+      if (status == '0') {
+        color = 'default'
+        text = '未连接'
+      }
+      if (status == '-1') {
+        color = 'warning'
+        text = '离线'
+      }
+      if (status == '1') {
+        color = 'success'
+        text = '在线'
+      }
+      return <Tag color={color}>{text}</Tag>
     }
   },
   {
     title: '操作',
     key: 'action',
-    render: (_, record) => (
+    render: _ => (
       <Space size='middle'>
-        <a>编辑 {record.name}</a>
+        <a>编辑</a>
         <a>删除</a>
       </Space>
     )

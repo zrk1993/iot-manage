@@ -29,4 +29,18 @@ export default class Device {
     password: joi.string().required()
   })
   async login(@Body() body: any) {}
+
+  @Post('/edit')
+  @BodySchame({
+    username: joi.string().required(),
+    password: joi.string().required()
+  })
+  async edit(@Body() body: any) {}
+
+  @Post('/del')
+  @BodySchame({
+    username: joi.string().required(),
+    password: joi.string().required()
+  })
+  async del(@Body() body: any) {}
 }

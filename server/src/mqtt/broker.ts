@@ -1,34 +1,71 @@
 import type { Client, AuthenticateError } from 'aedes'
 import Aedes from 'aedes'
 import { createServer } from 'net'
+import bemfa_mqtt from './bemfa_mqtt'
 import * as deviceModel from '../model/device.model'
 
 const port = 9501
 const aedes = new Aedes()
 
-aedes.authenticate = function (client, username, password, callback) {
-  deviceModel
-    .getByKey(client.id)
-    .then(v => {
-      if (v) {
-        callback(null, true)
-        // 更新 username
-      } else {
-        const error = new Error('Auth error') as AuthenticateError
-        error.returnCode = 4
-        callback(error, null)
-      }
-    })
-    .catch(error => {
-      error.returnCode = 4
-      callback(error, null)
-    })
+aedes.authenticate = async function (client, username, password, callback) {
+  const device = await deviceModel.getById(client.id)
+  if (!device) {
+    const error = new Error('Auth error') as AuthenticateError
+    error.returnCode = 4
+    return callback(error, null)
+  }
+  if (!device.mac_address) {
+    await deviceModel.updateMacAddress(device.id, username)
+  }
+  callback(null, client.id === device.id)
 }
+
+aedes.authorizeSubscribe = async function (client, sub, callback) {
+  const device = await deviceModel.getById(client.id)
+  if (!device) {
+    return callback(new Error('wrong device'))
+  }
+  if (sub.topic !== device.mac_address) {
+    return callback(new Error('wrong topic'))
+  }
+  callback(null, sub)
+}
+
+aedes.on('clientReady', async client => {
+  const device = await deviceModel.getById(client.id)
+  if (device) {
+    await deviceModel.update(device.id, {
+      status: 1,
+      connect_time: new Date().toString(),
+      remote_address: (client.conn as any).remoteAddress
+    })
+    if (device.bemfa_iot && device.bemfa_topic) {
+      bemfa_mqtt.subscribe(device.bemfa_topic, error => {
+        if (error) console.error(error)
+      })
+    }
+  }
+})
+
+aedes.on('clientDisconnect', async client => {
+  const device = await deviceModel.getById(client.id)
+  if (device) {
+    await deviceModel.update(device.id, {
+      status: -1,
+      disconnect_time: new Date().toString()
+    })
+    if (device.bemfa_iot && device.bemfa_topic) {
+      bemfa_mqtt.unsubscribe(device.bemfa_topic, err => {
+        if (err) console.error(err.message)
+      })
+    }
+  }
+})
 
 const server = createServer(aedes.handle)
 
 server.listen(port, function () {
-  console.log('server started and listening on port ', port)
+  console.log('mqtt broker on port ', port)
 })
 
 export function getcClients(): Client[] {

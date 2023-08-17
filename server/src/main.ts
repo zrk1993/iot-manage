@@ -1,7 +1,9 @@
 import { Koast } from 'koast'
 import routers from './controller'
-import startForward from './mqtt/forward'
 import { openDb } from './utils/db'
+
+import './mqtt/broker'
+import './mqtt/bemfa_mqtt'
 
 async function main() {
   await openDb()
@@ -18,4 +20,3 @@ async function main() {
 }
 
 main()
-startForward()
