@@ -10,7 +10,7 @@ import logger from './utils/logger'
 async function main() {
   await openDb()
 
-  const app = new Koast({ proxy: true })
+  const app = new Koast({ proxy: true, prefix: '/api' })
 
   app.useSwagger(routers)
   logger.info('swagger address http://localhost:' + config.SERVER_PORT + '/swagger-ui/index.html')
