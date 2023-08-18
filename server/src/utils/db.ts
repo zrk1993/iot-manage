@@ -1,12 +1,12 @@
 import { DBM } from 'soul-orm'
-import logger from '@/src/utils/logger'
+import logger from '../utils/logger'
 
 const orm = new DBM({
   connectionLimit: 10,
   host: 'localhost',
   port: 3306,
   user: 'root',
-  password: '654321',
+  password: '123456',
   database: 'iot',
   isDebug: true
 })

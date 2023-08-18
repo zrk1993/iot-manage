@@ -1,4 +1,4 @@
-import db from '@/src/utils/db'
+import db from '../utils/db'
 
 export default class BaseService<T> {
   $db = db

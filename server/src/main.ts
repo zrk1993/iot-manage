@@ -1,9 +1,9 @@
 import { Koast } from 'koast'
-import routers from '@/src/controller'
-import logger from '@/src/utils/logger'
-import config from '@/src/config'
-import '@/src/mqtt/broker'
-import '@/src/mqtt/bemfa_mqtt'
+import routers from './controller'
+import logger from './utils/logger'
+import config from './config'
+import './mqtt/broker'
+import './mqtt/bemfa_mqtt'
 
 async function main() {
   const app = new Koast({ proxy: true, prefix: '/api' })
