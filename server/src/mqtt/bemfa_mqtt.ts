@@ -1,7 +1,7 @@
 import * as mqtt from 'mqtt'
 import broker from './broker'
 import config from '../config'
-import * as deviceModel from '../model/device.model'
+import deviceModel from '../model/device.model'
 import logger from '../utils/logger'
 
 const client = mqtt.connect({

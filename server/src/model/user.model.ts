@@ -1,10 +1,21 @@
-import { db } from '../utils/db'
+import db from '@/src/utils/db'
+import BaseModel from './base.model'
 
 export type TUser = {
   username: string
   password: string
 }
 
-export async function getUserByName(username: string): Promise<TUser> {
-  return await db.get('SELECT * FROM t_user WHERE username = ?', username)
+const tableName = 'user'
+
+export class USerModel extends BaseModel<TUser> {
+  constructor() {
+    super({ tableName })
+  }
+
+  async getUserByName(uname: string): Promise<TUser> {
+    return this.$db.table(tableName).where({ uname }).findOrEmpty()
+  }
 }
+
+export default new USerModel()

@@ -1,15 +1,11 @@
 import { Koast } from 'koast'
-import routers from './controller'
-import { openDb } from './utils/db'
-
-import config from './config'
-import './mqtt/broker'
-import './mqtt/bemfa_mqtt'
-import logger from './utils/logger'
+import routers from '@/src/controller'
+import logger from '@/src/utils/logger'
+import config from '@/src/config'
+import '@/src/mqtt/broker'
+import '@/src/mqtt/bemfa_mqtt'
 
 async function main() {
-  await openDb()
-
   const app = new Koast({ proxy: true, prefix: '/api' })
 
   app.useSwagger(routers)

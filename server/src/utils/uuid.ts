@@ -6,5 +6,5 @@ export default function () {
   const md5Hash = crypto.createHash('md5')
   md5Hash.update(inputString)
   const fullMd5 = md5Hash.digest('hex')
-  return 'D' + dayjs().format('YYMM') + fullMd5.slice(0, 10).toUpperCase()
+  return 'D' + dayjs().format('YYMM') + fullMd5.slice(0, 11).toUpperCase()
 }

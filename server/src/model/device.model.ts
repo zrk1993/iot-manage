@@ -1,6 +1,9 @@
-import { db } from '../utils/db'
+import db from '@/src/utils/db'
+import BaseModel from './base.model'
 
-export type TDevice = {
+export const tableName = 'device'
+
+export interface TDevice {
   id: string
   name: string
   product_type: string
@@ -14,42 +17,18 @@ export type TDevice = {
   bemfa_topic: string
 }
 
-export async function page(params: { page: number; size: number }): Promise<TDevice[]> {
-  const count = params.size || 10
-  const offset = (params.page - 1) * params.size || 0
-  return await db.all(`SELECT * FROM t_device LIMIT ? OFFSET ?`, [count, offset])
+export class DeviceModel extends BaseModel<TDevice> {
+  constructor() {
+    super({ tableName })
+  }
+
+  async getByName(uname: string): Promise<TDevice> {
+    return this.$db.table(tableName).where({ uname }).findOrEmpty()
+  }
+
+  async getByBemfaTopic(bemfa_topic: string): Promise<TDevice> {
+    return this.$db.table(tableName).where({ bemfa_topic }).findOrEmpty()
+  }
 }
 
-export async function getById(id: string): Promise<TDevice> {
-  return await db.get(`SELECT * FROM t_device WHERE id = ?`, [id])
-}
-
-export async function getByBemfaTopic(topic: string): Promise<TDevice> {
-  return await db.get(`SELECT * FROM t_device WHERE bemfa_topic = ? LIMIT 1`, [topic])
-}
-
-export async function updateMacAddress(id: string, mac_address: string) {
-  return await db.run('UPDATE t_device SET mac_address = ? WHERE id = ?', [mac_address, id])
-}
-
-export async function updateStatus(id: string, status: number) {
-  return await db.run('UPDATE t_device SET status = ? WHERE id = ?', [status, id])
-}
-
-export async function update(id: string, data: Partial<TDevice>) {
-  const setStr = Object.keys(data)
-    .map(k => `${k}='${data[k]}'`)
-    .join(',')
-  return await db.run(`UPDATE t_device SET ${setStr} WHERE id = ?`, [id])
-}
-
-export async function add(data: TDevice) {
-  const ks = Object.keys(data)
-  return await db.run(
-    `INSERT INTO t_device (${ks.join(',')}) VALUES (${ks.map(k => `'${data[k]}'`).join(',')})`
-  )
-}
-
-export async function del(id: string) {
-  return await db.run(`DELETE FROM t_device WHERE id = ?`, id)
-}
+export default new DeviceModel()

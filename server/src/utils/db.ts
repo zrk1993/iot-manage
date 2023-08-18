@@ -1,16 +1,16 @@
-import sqlite3 from 'sqlite3'
-import { open } from 'sqlite'
+import { DBM } from 'soul-orm'
+import logger from '@/src/utils/logger'
 
-type GetValueType<T> = T extends Promise<infer R> ? R : never
+const orm = new DBM({
+  connectionLimit: 10,
+  host: 'localhost',
+  port: 3306,
+  user: 'root',
+  password: '654321',
+  database: 'iot',
+  isDebug: true
+})
 
-export let db: GetValueType<ReturnType<typeof open>>
+orm.setLogger(logger as any)
 
-export async function openDb() {
-  if (!db) {
-    db = await open({
-      filename: 'database',
-      driver: sqlite3.Database
-    })
-  }
-  return db
-}
+export default orm

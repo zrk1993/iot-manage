@@ -12,8 +12,8 @@ import {
   QuerySchame,
   BodySchame
 } from 'koast'
-import * as userModel from '../model/user.model'
-import { generateToken, verifyToken } from '../utils/auth-jwt'
+import userModel from '@/src/model/user.model'
+import { generateToken, verifyToken } from '@/src/utils/auth-jwt'
 
 @Controller('/user')
 export default class User {

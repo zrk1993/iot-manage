@@ -2,7 +2,7 @@ import type { Client, AuthenticateError } from 'aedes'
 import Aedes from 'aedes'
 import { createServer } from 'net'
 import bemfa_mqtt from './bemfa_mqtt'
-import * as deviceModel from '../model/device.model'
+import deviceModel from '../model/device.model'
 import logger from '../utils/logger'
 
 const port = 9501
@@ -16,7 +16,7 @@ aedes.authenticate = async function (client, username, password, callback) {
     return callback(error, null)
   }
   if (!device.mac_address) {
-    await deviceModel.updateMacAddress(device.id, username)
+    await deviceModel.updateById(device.id, { mac_address: username })
   }
   callback(null, client.id === device.id)
 }
@@ -35,7 +35,7 @@ aedes.authorizeSubscribe = async function (client, sub, callback) {
 aedes.on('clientReady', async client => {
   const device = await deviceModel.getById(client.id)
   if (device) {
-    await deviceModel.update(device.id, {
+    await deviceModel.updateById(device.id, {
       status: 1,
       connect_time: new Date().toString(),
       remote_address: (client.conn as any).remoteAddress
@@ -51,7 +51,7 @@ aedes.on('clientReady', async client => {
 aedes.on('clientDisconnect', async client => {
   const device = await deviceModel.getById(client.id)
   if (device) {
-    await deviceModel.update(device.id, {
+    await deviceModel.updateById(device.id, {
       status: -1,
       disconnect_time: new Date().toString()
     })

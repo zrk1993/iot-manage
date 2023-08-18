@@ -13,7 +13,7 @@ import {
   BodySchame
 } from 'koast'
 import type { TDevice } from '../model/device.model'
-import * as deviceModel from '../model/device.model'
+import deviceModel from '../model/device.model'
 import products from '../constant/products'
 import { addTopic, delTopic } from '../api/bemfa'
 import uuid from '../utils/uuid'
@@ -23,7 +23,7 @@ export default class Device {
   @Get('/list')
   async list(@Query() query: any) {
     const { page, size } = query
-    const res = await deviceModel.page({ page, size })
+    const res = await deviceModel.getPage()
     return { code: 0, data: res }
   }
 
@@ -42,13 +42,13 @@ export default class Device {
         return res
       }
     }
-    const r = await deviceModel.add(body)
+    const r = await deviceModel.insert(body)
     return { code: 0, data: r }
   }
 
   @Post('/edit')
   async edit(@Body() body: TDevice) {
-    const r = await deviceModel.update(body.id, body)
+    const r = await deviceModel.updateById(body.id, body)
     return { code: 0, data: r }
   }
 
@@ -65,7 +65,7 @@ export default class Device {
         return res
       }
     }
-    const result = await deviceModel.del(device.id)
+    const result = await deviceModel.deleteById(device.id)
     return { code: 0, data: result }
   }
 }
