@@ -1,4 +1,5 @@
 import user from './user.controller'
 import device from './device.controller'
+import product from './product.controller'
 
-export default [user, device]
+export default [user, device, product]

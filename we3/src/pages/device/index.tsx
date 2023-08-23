@@ -25,7 +25,7 @@ const columns: ColumnsType<TDevice> = [
     title: 'MAC',
     dataIndex: 'mac_address',
     key: 'mac_address',
-    render: (_, { mac_address }) => <>{mac_address.slice(-6)}</>
+    render: (_, { mac_address }) => <>{mac_address?.slice(-6) || '未连接'}</>
   },
   {
     title: '状态',
@@ -44,7 +44,7 @@ const columns: ColumnsType<TDevice> = [
     render: (_, { status }) => {
       let color = ''
       let text = ''
-      if (status == '0') {
+      if (!status) {
         color = 'default'
         text = '未连接'
       }

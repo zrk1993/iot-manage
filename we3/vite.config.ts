@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000', // 目标代理地址
+        target: 'http://localhost:9500', // 目标代理地址
         changeOrigin: true
       }
     }

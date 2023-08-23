@@ -1,5 +1,7 @@
 import { Button, Form, Input, Select } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
+
+import DeviceAddForm from './DeviceAddForm'
 
 type FieldType = {
   username?: string
@@ -18,33 +20,55 @@ const handleChange = (value: string) => {
   console.log(`selected ${value}`)
 }
 
-const QueryForm: React.FC = () => (
-  <div className='bg-white rounded-md px-4 py-5'>
-    <Form layout='inline' initialValues={{}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
-      <Form.Item<FieldType> label='设备' name='username'>
-        <Input placeholder='请输入' />
-      </Form.Item>
+const QueryForm: React.FC = () => {
+  const [open, setOpen] = useState(false)
 
-      <Form.Item label='状态'>
-        <Select
-          placeholder='请选择'
-          style={{ width: 120 }}
-          onChange={handleChange}
-          options={[
-            { value: 'jack', label: 'Jack' },
-            { value: 'lucy', label: 'Lucy' },
-            { value: 'Yiminghe', label: 'yiminghe' },
-            { value: 'disabled', label: 'Disabled', disabled: true }
-          ]}
-        />
-      </Form.Item>
-      <Form.Item>
-        <Button type='primary' htmlType='submit'>
-          新建
-        </Button>
-      </Form.Item>
-    </Form>
-  </div>
-)
+  const onCreate = (values: any) => {
+    console.log('Received values of form: ', values)
+    setOpen(false)
+  }
+
+  return (
+    <div className='bg-white rounded-md px-4 py-5'>
+      <DeviceAddForm
+        open={open}
+        onCreate={onCreate}
+        onCancel={() => {
+          setOpen(false)
+        }}
+      ></DeviceAddForm>
+      <Form layout='inline' initialValues={{}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+        <Form.Item<FieldType> label='设备' name='username'>
+          <Input placeholder='请输入' />
+        </Form.Item>
+
+        <Form.Item label='状态'>
+          <Select
+            placeholder='请选择'
+            style={{ width: 120 }}
+            onChange={handleChange}
+            options={[
+              { value: '', label: '全部' },
+              { value: '1', label: '在线' },
+              { value: '-1', label: '离线' },
+              { value: '0', label: '未连接' }
+            ]}
+          />
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type='primary'
+            htmlType='submit'
+            onClick={() => {
+              setOpen(true)
+            }}
+          >
+            新建
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
+  )
+}
 
 export default QueryForm

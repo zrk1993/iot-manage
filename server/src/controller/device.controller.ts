@@ -31,11 +31,11 @@ export default class Device {
   @BodySchame({
     name: joi.string().required(),
     product_type: joi.string().required(),
-    bemfa_iot: joi.string().required()
+    bemfa_iot: joi.number().required()
   })
   async add(@Body() body: TDevice) {
     body.id = uuid()
-    if (body.bemfa_iot == 1) {
+    if (body.bemfa_iot) {
       body.bemfa_topic = body.id + products.find(v => v.type === body.product_type).code
       const res = await addTopic(body.bemfa_topic, body.name)
       if (res.code !== 0) {
@@ -59,7 +59,7 @@ export default class Device {
   async del(@Body() body: Pick<TDevice, 'id'>) {
     const device = await deviceModel.getById(body.id)
     if (!device) return { code: 5000 }
-    if (device.bemfa_iot == 1) {
+    if (device.bemfa_iot) {
       const res = await delTopic(device.bemfa_topic)
       if (res.code != 0) {
         return res

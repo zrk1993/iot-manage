@@ -6,3 +6,17 @@ export async function deviceList(data: object) {
     params: data
   })
 }
+
+export async function deviceAdd(data: object) {
+  return request('/device/add', {
+    method: 'POST',
+    data: data
+  })
+}
+
+export async function deviceDel(data: object) {
+  return request('/device/del', {
+    method: 'POST',
+    data: data
+  })
+}
