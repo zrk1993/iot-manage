@@ -57,7 +57,7 @@ const DeviceAddForm: React.FC<DeviceAddFormProps> = ({ open, onCreate, onCancel 
           })
       }}
     >
-      <Form form={form} layout='vertical' name='form_in_modal' initialValues={{ modifier: 'public' }}>
+      <Form form={form} layout='vertical' name='form_in_modal' initialValues={{ name: '', product_type: null, bemfa_iot: false }}>
         <Form.Item name='name' label='设备名' rules={[{ required: true, message: '请输入设备名' }]}>
           <Input placeholder='请输入设备名称' />
         </Form.Item>
@@ -73,7 +73,7 @@ const DeviceAddForm: React.FC<DeviceAddFormProps> = ({ open, onCreate, onCancel 
           </Select>
         </Form.Item>
         <Form.Item name='bemfa_iot' label='连接巴法云' valuePropName='checked'>
-          <Switch checkedChildren='开启' unCheckedChildren='关闭' defaultChecked />
+          <Switch checkedChildren='开启' unCheckedChildren='关闭' />
         </Form.Item>
       </Form>
     </Modal>

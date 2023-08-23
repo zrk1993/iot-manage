@@ -3,7 +3,7 @@ import { isMobile } from '@/utils/tools'
 import { useRequest } from 'ahooks'
 import { Space, Table, Tag } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import QueryForm from './components/QueryForm'
 
@@ -72,13 +72,27 @@ const columns: ColumnsType<TDevice> = [
 ]
 
 const Device: React.FC = () => {
-  const { data, loading } = useRequest(deviceList)
-  const dataSource = data?.data || []
+  const [dataSource, setSataSource] = useState([])
+  const { loading, run } = useRequest(deviceList, {
+    manual: true,
+    onSuccess: result => {
+      if (result) {
+        setSataSource(result.data)
+      }
+    }
+  })
+  const search = () => {
+    run(dataSource)
+  }
+
+  useEffect(() => {
+    run(dataSource)
+  }, [])
 
   return (
     <div>
-      {!isMobile() && <QueryForm />}
-      <Table className='mt-4' loading={loading} columns={columns} dataSource={dataSource} />
+      <QueryForm search={search} />
+      <Table rowKey='id' className='mt-4' loading={loading} columns={columns} dataSource={dataSource} />
     </div>
   )
 }
