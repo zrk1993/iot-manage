@@ -2,7 +2,7 @@ import { deviceDel, deviceList } from '@/api/device'
 import { useRequest } from 'ahooks'
 import { Button, Popconfirm, Space, Table, Tag, message as antdMessage } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import QueryForm from './components/QueryForm'
 
