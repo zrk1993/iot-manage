@@ -19,7 +19,7 @@ export interface TDevice {
 
 export class DeviceModel extends BaseModel<TDevice> {
   constructor() {
-    super({ tableName })
+    super({ tableName, primaryKey: 'id' })
   }
 
   async getByName(uname: string): Promise<TDevice> {

@@ -20,12 +20,13 @@ const handleChange = (value: string) => {
   console.log(`selected ${value}`)
 }
 
-const QueryForm: React.FC<{ search: () => void }> = props => {
+const QueryForm: React.FC<{ search: () => void; loading: boolean }> = props => {
   const [open, setOpen] = useState(false)
 
   const onCreate = (values: any) => {
     console.log('Received values of form: ', values)
     setOpen(false)
+    props.search()
   }
 
   const search = () => {
@@ -60,7 +61,7 @@ const QueryForm: React.FC<{ search: () => void }> = props => {
           />
         </Form.Item>
         <Form.Item>
-          <Button className='mr-2' type='primary' htmlType='submit' onClick={search}>
+          <Button loading={props.loading} className='mr-2' type='primary' htmlType='submit' onClick={search}>
             搜索
           </Button>
           <Button
