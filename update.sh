@@ -2,7 +2,9 @@
 
 git pull
 
-cd ./server npm run build
+cd ./server 
+
+npm run build
 
 cd ../we3
 
