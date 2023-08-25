@@ -42,15 +42,21 @@ const QueryForm: React.FC<{ search: () => void; loading: boolean }> = props => {
           setOpen(false)
         }}
       ></DeviceAddForm>
-      <Form layout='inline' initialValues={{}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+      <Form
+        layout='inline'
+        labelCol={{ flex: '0 0 auto' }}
+        wrapperCol={{ flex: '1 0 auto' }}
+        initialValues={{}}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+      >
         <Form.Item<FieldType> label='设备' name='username'>
-          <Input placeholder='请输入' />
+          <Input placeholder='请输入' className='w-24 md:w-36' />
         </Form.Item>
-
         <Form.Item label='状态'>
           <Select
             placeholder='请选择'
-            style={{ width: 120 }}
+            className='w-24 md:w-36'
             onChange={handleChange}
             options={[
               { value: '', label: '全部' },
@@ -60,7 +66,7 @@ const QueryForm: React.FC<{ search: () => void; loading: boolean }> = props => {
             ]}
           />
         </Form.Item>
-        <Form.Item>
+        <Form.Item wrapperCol={{ span: 24 }}>
           <Button loading={props.loading} className='mr-2' type='primary' htmlType='submit' onClick={search}>
             搜索
           </Button>

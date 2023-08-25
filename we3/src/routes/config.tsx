@@ -17,6 +17,11 @@ const routes: RouteProps[] = [
     icon: <AlertFilled />,
     name: '设备管理',
     element: lazyLoad(React.lazy(() => import('@/pages/device')))
+  },
+  {
+    path: '/device/detail/:id',
+    meta: { hide: true },
+    element: lazyLoad(React.lazy(() => import('@/pages/device/detail')))
   }
 ]
 

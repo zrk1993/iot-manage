@@ -3,6 +3,7 @@ import { useRequest } from 'ahooks'
 import { Button, Popconfirm, Space, Table, Tag, message as antdMessage } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import QueryForm from './components/QueryForm'
 
@@ -32,7 +33,7 @@ const Device: React.FC = () => {
       title: '设备',
       dataIndex: 'name',
       key: 'name',
-      render: (_, { name }) => <a>{name}</a>
+      render: (_, { name, id }) => <Link to={'/device/detail/' + id}>{name}</Link>
     },
     {
       title: 'MAC',
@@ -78,9 +79,10 @@ const Device: React.FC = () => {
       render: (_, { id }) => (
         <Space size='middle'>
           <Popconfirm
-            title='删除'
+            title='提示'
             cancelText='取消'
-            description='确认删除设备'
+            okText='删除'
+            description='确认删除设备！'
             onConfirm={async () => {
               const res = await deviceDel({ id })
               if (res.code != 0) {
@@ -89,7 +91,9 @@ const Device: React.FC = () => {
               onSearch()
             }}
           >
-            <Button type='text'>删除</Button>
+            <Button type='text' danger>
+              删除
+            </Button>
           </Popconfirm>
         </Space>
       )

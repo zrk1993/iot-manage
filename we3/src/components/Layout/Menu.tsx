@@ -8,13 +8,15 @@ import './Menu.scss'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
-const items: MenuItem[] = routes.map(v => {
-  return {
-    label: v.name,
-    key: v.path!,
-    icon: v.icon
-  }
-})
+const items: MenuItem[] = routes
+  .filter(v => !v.meta?.hide)
+  .map(v => {
+    return {
+      label: v.name,
+      key: v.path!,
+      icon: v.icon
+    }
+  })
 
 const Menu: FC<{ collapsed: boolean }> = props => {
   const navigate = useNavigate()

@@ -20,3 +20,10 @@ export async function deviceDel(data: object) {
     data: data
   })
 }
+
+export async function deviceInfo(data: object) {
+  return request('/device/info', {
+    method: 'GET',
+    params: data
+  })
+}

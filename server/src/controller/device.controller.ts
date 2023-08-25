@@ -52,6 +52,16 @@ export default class Device {
     return { code: 0, data: r }
   }
 
+  @Get('/info')
+  @QuerySchame({
+    id: joi.string().required()
+  })
+  async info(@Query() query: Pick<TDevice, 'id'>) {
+    const device = await deviceModel.getById(query.id)
+    if (!device) return { code: 5000, message: '设备不存在！' }
+    return { code: 0, data: device }
+  }
+
   @Post('/del')
   @BodySchame({
     id: joi.string().required()

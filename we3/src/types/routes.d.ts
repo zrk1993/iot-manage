@@ -3,6 +3,7 @@ import type { IndexRouteObject, NonIndexRouteObject } from 'react-router'
 type CustomRouteFields = {
   name?: string
   icon?: JSX.Element
+  meta?: { hide?: boolean }
 }
 
 type AppIndexRouteObject = IndexRouteObject & CustomRouteFields
