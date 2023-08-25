@@ -19,4 +19,4 @@ const StatusTag: React.FC<{ status: string }> = ({ status }) => {
   return <Tag color={color}>{text}</Tag>
 }
 
-export default StatusTag
+export default React.memo(StatusTag)

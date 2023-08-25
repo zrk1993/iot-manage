@@ -2,7 +2,7 @@
 #include <ESP8266WiFi.h>
 #include <WiFiManager.h>
 #include "PubSubClient.h"
-
+#include "ota.h"
 #define ID_MQTT  "D2308B183F28E2BA"     //用户私钥，控制台获取
 
 const char* mqtt_server = "192.168.200.54"; //默认，MQTT服务器
@@ -30,6 +30,9 @@ void callback(char* topic, byte* payload, size_t length) {
 	String msg = "";
 	for (size_t i = 0; i < length; i++) {
 		msg += (char)payload[i];
+	}
+	if (strcmp(msg.c_str(), "UPDATE")) {
+		updateBin(msg);
 	}
 	Serial.print("Msg:");
 	Serial.println(msg);

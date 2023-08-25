@@ -27,7 +27,7 @@ aedes.authorizeSubscribe = async function (client, sub, callback) {
     return callback(new Error('wrong device'))
   }
   if (sub.topic !== device.mac_address) {
-    return callback(new Error('wrong topic'))
+    // return callback(new Error('wrong topic'))
   }
   callback(null, sub)
 }
@@ -38,7 +38,7 @@ aedes.on('clientReady', async client => {
     await deviceModel.updateById(device.id, {
       status: 1,
       connect_time: new Date(),
-      remote_address: (client.conn as any).remoteAddress.replace('::ffff:', '')
+      remote_address: (client.conn as any).remoteAddress?.replace('::ffff:', '')
     })
     if (device.bemfa_iot && device.bemfa_topic) {
       bemfa_mqtt.subscribe(device.bemfa_topic, error => {
