@@ -3,7 +3,7 @@
 #include <WiFiManager.h>
 #include "PubSubClient.h"
 
-#define ID_MQTT  "A230817143056SS"     //用户私钥，控制台获取
+#define ID_MQTT  "D2308B183F28E2BA"     //用户私钥，控制台获取
 
 const char* mqtt_server = "192.168.200.54"; //默认，MQTT服务器
 const int mqtt_server_port = 9501;      //默认，MQTT服务器

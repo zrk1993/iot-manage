@@ -24,6 +24,9 @@ export default class Device {
   async list(@Query() query: any) {
     const { page, size } = query
     const res = await deviceModel.getPage()
+    res.forEach(v => {
+      v.product_type_name = products.find(p => p.type == v.product_type).name
+    })
     return { code: 0, data: res }
   }
 
@@ -36,6 +39,7 @@ export default class Device {
   async add(@Body() body: TDevice) {
     body.id = uuid()
     if (body.bemfa_iot) {
+      body.create_time = new Date()
       body.bemfa_topic = body.id + products.find(v => v.type === body.product_type).code
       const res = await addTopic(body.bemfa_topic, body.name)
       if (res.code !== 0) {
@@ -59,6 +63,7 @@ export default class Device {
   async info(@Query() query: Pick<TDevice, 'id'>) {
     const device = await deviceModel.getById(query.id)
     if (!device) return { code: 5000, message: '设备不存在！' }
+    device.product_type_name = products.find(p => p.type == device.product_type)?.name
     return { code: 0, data: device }
   }
 

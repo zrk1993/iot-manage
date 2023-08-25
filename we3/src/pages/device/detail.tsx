@@ -1,7 +1,9 @@
 import { deviceInfo } from '@/api/device'
+import StatusTag from '@/components/StatusTag'
 import { useRequest } from 'ahooks'
 import { Descriptions, Spin } from 'antd'
 import type { DescriptionsProps } from 'antd'
+import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
@@ -22,13 +24,18 @@ const DeviceDetail: React.FC = () => {
           },
           {
             key: 'id',
-            label: '设备名称',
+            label: 'ID',
             children: v.id
           },
           {
-            key: 'product_type',
+            key: 'status',
+            label: '状态',
+            children: <StatusTag status={v.status}></StatusTag>
+          },
+          {
+            key: 'product_type_name',
             label: '产品类型',
-            children: v.product_type
+            children: v.product_type_name
           },
           {
             key: 'mac_address',
@@ -36,24 +43,19 @@ const DeviceDetail: React.FC = () => {
             children: v.mac_address
           },
           {
-            key: 'status',
-            label: '状态',
-            children: v.status
-          },
-          {
             key: 'create_time',
             label: '创建时间',
-            children: v.create_time
+            children: v.create_time ? dayjs(v.create_time).format('YY-MM-DD HH:mm:ss') : '-'
           },
           {
             key: 'connect_time',
             label: '连接时间',
-            children: v.connect_time
+            children: v.connect_time ? dayjs(v.connect_time).format('YY-MM-DD HH:mm:ss') : ''
           },
           {
             key: 'disconnect_time',
             label: '断开时间',
-            children: v.disconnect_time
+            children: v.disconnect_time ? dayjs(v.disconnect_time).format('YY-MM-DD HH:mm:ss') : ''
           },
           {
             key: 'remote_address',

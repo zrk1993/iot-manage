@@ -9,12 +9,13 @@ export interface TDevice {
   product_type: string
   mac_address: string
   status: number
-  create_time: string
-  connect_time: string
-  disconnect_time: string
+  create_time: Date
+  connect_time: Date
+  disconnect_time: Date
   remote_address: string
   bemfa_iot: number
   bemfa_topic: string
+  [prop: string]: any
 }
 
 export class DeviceModel extends BaseModel<TDevice> {

@@ -1,6 +1,7 @@
 import { deviceDel, deviceList } from '@/api/device'
+import StatusTag from '@/components/StatusTag'
 import { useRequest } from 'ahooks'
-import { Button, Popconfirm, Space, Table, Tag, message as antdMessage } from 'antd'
+import { Button, Popconfirm, Space, Table, message as antdMessage } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -10,7 +11,7 @@ import QueryForm from './components/QueryForm'
 type TDevice = {
   id: string
   name: string
-  mac_address: string
+  product_type_name: string
   bemfa: boolean
   status: string
 }
@@ -36,10 +37,10 @@ const Device: React.FC = () => {
       render: (_, { name, id }) => <Link to={'/device/detail/' + id}>{name}</Link>
     },
     {
-      title: 'MAC',
-      dataIndex: 'mac_address',
-      key: 'mac_address',
-      render: (_, { mac_address }) => <>{mac_address?.slice(-6) || '未连接'}</>
+      title: '类型',
+      dataIndex: 'product_type_name',
+      key: 'product_type_name',
+      render: (_, { product_type_name }) => <>{product_type_name}</>
     },
     {
       title: '状态',
@@ -55,23 +56,7 @@ const Device: React.FC = () => {
           value: '离线'
         }
       ],
-      render: (_, { status }) => {
-        let color = ''
-        let text = ''
-        if (!status) {
-          color = 'default'
-          text = '未连接'
-        }
-        if (status == '-1') {
-          color = 'warning'
-          text = '离线'
-        }
-        if (status == '1') {
-          color = 'success'
-          text = '在线'
-        }
-        return <Tag color={color}>{text}</Tag>
-      }
+      render: (_, { status }) => <StatusTag status={status}></StatusTag>
     },
     {
       title: '操作',

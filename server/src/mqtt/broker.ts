@@ -37,8 +37,8 @@ aedes.on('clientReady', async client => {
   if (device) {
     await deviceModel.updateById(device.id, {
       status: 1,
-      connect_time: new Date().toString(),
-      remote_address: (client.conn as any).remoteAddress
+      connect_time: new Date(),
+      remote_address: (client.conn as any).remoteAddress.replace('::ffff:', '')
     })
     if (device.bemfa_iot && device.bemfa_topic) {
       bemfa_mqtt.subscribe(device.bemfa_topic, error => {
@@ -53,7 +53,7 @@ aedes.on('clientDisconnect', async client => {
   if (device) {
     await deviceModel.updateById(device.id, {
       status: -1,
-      disconnect_time: new Date().toString()
+      disconnect_time: new Date()
     })
     if (device.bemfa_iot && device.bemfa_topic) {
       bemfa_mqtt.unsubscribe(device.bemfa_topic, err => {
