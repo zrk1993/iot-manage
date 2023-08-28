@@ -1,11 +1,29 @@
 import { deviceInfo } from '@/api/device'
 import StatusTag from '@/components/StatusTag'
 import { useRequest } from 'ahooks'
-import { Descriptions, Spin } from 'antd'
-import type { DescriptionsProps } from 'antd'
+import { Button, Descriptions, Spin, Upload, message as antdMessage } from 'antd'
+import type { DescriptionsProps, UploadProps } from 'antd'
 import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+
+const props: UploadProps = {
+  name: 'file',
+  action: '/api/file/upload',
+  headers: {
+    authorization: 'authorization-text'
+  },
+  onChange(info) {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList)
+    }
+    if (info.file.status === 'done') {
+      antdMessage.success(`${info.file.name} file uploaded successfully`)
+    } else if (info.file.status === 'error') {
+      antdMessage.error(`${info.file.name} file upload failed.`)
+    }
+  }
+}
 
 const DeviceDetail: React.FC = () => {
   const { id } = useParams()
@@ -41,6 +59,17 @@ const DeviceDetail: React.FC = () => {
             key: 'mac_address',
             label: 'MAC地址',
             children: v.mac_address
+          },
+          {
+            key: 'img',
+            label: '图片',
+            children: (
+              <div>
+                <Upload {...props}>
+                  <Button>Click to Upload</Button>
+                </Upload>
+              </div>
+            )
           },
           {
             key: 'create_time',

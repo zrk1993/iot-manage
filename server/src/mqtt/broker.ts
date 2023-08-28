@@ -27,7 +27,7 @@ aedes.authorizeSubscribe = async function (client, sub, callback) {
     return callback(new Error('wrong device'))
   }
   if (sub.topic !== device.mac_address) {
-    // return callback(new Error('wrong topic'))
+    return callback(new Error('wrong topic'))
   }
   callback(null, sub)
 }
