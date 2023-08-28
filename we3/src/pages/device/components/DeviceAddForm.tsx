@@ -1,7 +1,7 @@
 import { deviceAdd } from '@/api/device'
 import { productList } from '@/api/product'
 import { useRequest } from 'ahooks'
-import { Form, Input, Modal, Select, Switch, message as antdMessage } from 'antd'
+import { Form, Input, Modal, Select, message as antdMessage } from 'antd'
 import React, { useState } from 'react'
 
 const { Option } = Select
@@ -9,7 +9,6 @@ const { Option } = Select
 interface Values {
   name: string
   product_type: string
-  bemfa_iot: boolean
 }
 
 interface DeviceAddFormProps {
@@ -39,7 +38,7 @@ const DeviceAddForm: React.FC<DeviceAddFormProps> = ({ open, onCreate, onCancel 
           .then(async values => {
             setConfirmLoading(true)
             try {
-              const { code, message } = await deviceAdd(Object.assign(values, { bemfa_iot: values.bemfa_iot ? 1 : 0 }))
+              const { code, message } = await deviceAdd(values)
               if (code != 0) {
                 antdMessage.error(message)
                 return
@@ -57,7 +56,7 @@ const DeviceAddForm: React.FC<DeviceAddFormProps> = ({ open, onCreate, onCancel 
           })
       }}
     >
-      <Form form={form} layout='vertical' name='form_in_modal' initialValues={{ name: '', product_type: null, bemfa_iot: false }}>
+      <Form form={form} layout='vertical' name='form_in_modal' initialValues={{ name: '', product_type: null }}>
         <Form.Item name='name' label='设备名' rules={[{ required: true, message: '请输入设备名' }]}>
           <Input placeholder='请输入设备名称' />
         </Form.Item>
@@ -71,9 +70,6 @@ const DeviceAddForm: React.FC<DeviceAddFormProps> = ({ open, onCreate, onCancel 
                   </Option>
                 ))}
           </Select>
-        </Form.Item>
-        <Form.Item name='bemfa_iot' label='连接巴法云' valuePropName='checked'>
-          <Switch checkedChildren='开启' unCheckedChildren='关闭' />
         </Form.Item>
       </Form>
     </Modal>

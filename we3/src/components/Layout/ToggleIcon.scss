@@ -1,12 +1,12 @@
 .collapsed-button {
+  bottom: 14px;
+  left: 24px;
   position: absolute;
-  inset-block-start: 18px;
   z-index: 101;
   width: 24px;
   height: 24px;
   text-align: center;
   border-radius: 40px;
-  inset-inline-end: -13px;
   transition: transform 0.3s;
   display: flex;
   align-items: center;

@@ -1,112 +1,60 @@
-import { deviceInfo } from '@/api/device'
-import StatusTag from '@/components/StatusTag'
-import { useRequest } from 'ahooks'
-import { Button, Descriptions, Spin, Upload, message as antdMessage } from 'antd'
-import type { DescriptionsProps, UploadProps } from 'antd'
-import dayjs from 'dayjs'
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Tabs } from 'antd'
+import type { TabsProps } from 'antd'
+import React from 'react'
 
-const props: UploadProps = {
-  name: 'file',
-  action: '/api/file/upload',
-  headers: {
-    authorization: 'authorization-text'
-  },
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList)
-    }
-    if (info.file.status === 'done') {
-      antdMessage.success(`${info.file.name} file uploaded successfully`)
-    } else if (info.file.status === 'error') {
-      antdMessage.error(`${info.file.name} file upload failed.`)
-    }
-  }
-}
+import BaseInfo from './tabs/BaseInfo'
 
 const DeviceDetail: React.FC = () => {
-  const { id } = useParams()
-  const [items, setItems] = useState<DescriptionsProps['items']>([])
+  const onChange = (key: string) => {
+    console.log(key)
+  }
 
-  const { loading, run } = useRequest(deviceInfo, {
-    manual: true,
-    onSuccess: result => {
-      if (result) {
-        const v = result.data
-        const data: DescriptionsProps['items'] = [
-          {
-            key: 'name',
-            label: '设备名称',
-            children: v.name
-          },
-          {
-            key: 'id',
-            label: 'ID',
-            children: v.id
-          },
-          {
-            key: 'status',
-            label: '状态',
-            children: <StatusTag status={v.status}></StatusTag>
-          },
-          {
-            key: 'product_type_name',
-            label: '产品类型',
-            children: v.product_type_name
-          },
-          {
-            key: 'mac_address',
-            label: 'MAC地址',
-            children: v.mac_address
-          },
-          {
-            key: 'img',
-            label: '图片',
-            children: (
-              <div>
-                <Upload {...props}>
-                  <Button>Click to Upload</Button>
-                </Upload>
-              </div>
-            )
-          },
-          {
-            key: 'create_time',
-            label: '创建时间',
-            children: v.create_time ? dayjs(v.create_time).format('YY-MM-DD HH:mm:ss') : '-'
-          },
-          {
-            key: 'connect_time',
-            label: '连接时间',
-            children: v.connect_time ? dayjs(v.connect_time).format('YY-MM-DD HH:mm:ss') : ''
-          },
-          {
-            key: 'disconnect_time',
-            label: '断开时间',
-            children: v.disconnect_time ? dayjs(v.disconnect_time).format('YY-MM-DD HH:mm:ss') : ''
-          },
-          {
-            key: 'remote_address',
-            label: 'IP地址',
-            children: v.remote_address
-          },
-          {
-            key: 'bemfa_iot',
-            label: '巴法云',
-            children: v.bemfa_iot
-          }
-        ]
-        setItems(data)
-      }
+  const tabItems: TabsProps['items'] = [
+    {
+      key: '1',
+      label: '设备信息',
+      children: <BaseInfo></BaseInfo>
+    },
+    // {
+    //   key: '2',
+    //   label: '运行状态',
+    //   children: ''
+    // },
+    // {
+    //   key: '3',
+    //   label: '物模型',
+    //   children: ''
+    // },
+    // {
+    //   key: '4',
+    //   label: '日志管理',
+    //   children: ''
+    // },
+    {
+      key: '5',
+      label: 'OTA升级',
+      children: ''
     }
-  })
+  ]
 
-  useEffect(() => {
-    run({ id })
-  }, [])
-
-  return <div className='bg-white p-6 rounded-md'>{loading ? <Spin></Spin> : <Descriptions title='设备详情' bordered items={items} />}</div>
+  return (
+    <div className='bg-white p-6 rounded-md'>
+      <div className='flex'>
+        <span></span>
+        <div className='text-lg text-black'>设备详情</div>
+      </div>
+      <div className='flex items-center mt-6'>
+        <div className='w-16 h-16 rounded'>
+          <img src='/vite.svg' className='w-full h-full' alt='' />
+        </div>
+        <div className='ml-3'>
+          <div className='text-sm text-gray-700'>设备名称: 1212313</div>
+          <div className='text-xs text-gray-500 mt-1'>连接状态: 1</div>
+        </div>
+      </div>
+      <Tabs className='mb-4 mt-5' defaultActiveKey='1' items={tabItems} onChange={onChange} />
+    </div>
+  )
 }
 
 export default DeviceDetail

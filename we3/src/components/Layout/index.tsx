@@ -43,7 +43,7 @@ export default function Test() {
             <Menu collapsed={collapsed}></Menu>
           </div>
         )}
-        <div className='flex-1 p-5'>
+        <div className='flex-1 p-5' style={{ overflowY: 'auto' }}>
           <Outlet />
         </div>
       </div>
