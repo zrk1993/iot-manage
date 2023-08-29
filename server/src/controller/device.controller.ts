@@ -12,12 +12,12 @@ import {
   QuerySchame,
   BodySchame
 } from 'koast'
-import type { TDevice } from '../model/device.model'
-import deviceModel from '../model/device.model'
-import products from '../constant/products'
-import uuid from '../utils/uuid'
-import ResultUtils from '../utils/result-utils'
-import * as deviceService from '../service/device.service'
+import type { TDevice } from '@/model/device.model'
+import deviceModel from '@/model/device.model'
+import products from '@/constant/products'
+import uuid from '@/utils/uuid'
+import ResultUtils from '@/utils/result-utils'
+import * as deviceService from '@/service/device.service'
 
 @Controller('/device')
 export default class Device {

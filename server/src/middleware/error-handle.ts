@@ -1,6 +1,6 @@
 import { Context } from 'koast'
-import logger from '../utils/logger'
-import ResultUtils from '../utils/result-utils'
+import logger from '@/utils/logger'
+import ResultUtils from '@/utils/result-utils'
 
 export default () => {
   return async (ctx: Context, next: () => Promise<void>) => {

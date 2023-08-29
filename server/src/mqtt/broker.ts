@@ -1,9 +1,9 @@
 import type { Client, AuthenticateError } from 'aedes'
 import Aedes from 'aedes'
 import { createServer } from 'net'
-import bemfa_mqtt from './bemfa_mqtt'
-import deviceModel from '../model/device.model'
-import logger from '../utils/logger'
+import bemfa_mqtt from '@/mqtt/bemfa_mqtt'
+import deviceModel from '@/model/device.model'
+import logger from '@/utils/logger'
 
 const port = 9501
 const aedes = new Aedes()

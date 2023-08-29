@@ -12,10 +12,10 @@ import {
   QuerySchame,
   BodySchame
 } from 'koast'
-import userModel from '../model/user.model'
-import CurUser from '../decorators/cur-user'
-import ResultUtils from '../utils/result-utils'
-import * as appJwt from '../middleware/app-jwt'
+import userModel from '@/model/user.model'
+import CurUser from '@/decorators/cur-user'
+import ResultUtils from '@/utils/result-utils'
+import * as appJwt from '@/middleware/app-jwt'
 
 @Controller('/user')
 export default class User {

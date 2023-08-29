@@ -1,5 +1,5 @@
-import db from '../utils/db'
-import BaseModel from './base.model'
+import db from '@/utils/db'
+import BaseModel from '@/model/base.model'
 
 export const tableName = 'device'
 

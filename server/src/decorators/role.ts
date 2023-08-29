@@ -4,7 +4,7 @@
  */
 
 import { Use, Description, Context } from 'koast'
-import { verify } from '../middleware/app-jwt'
+import { verify } from '@/middleware/app-jwt'
 
 export default function Role(...roles: string[]) {
   const role = Use(async (ctx: Context, next: () => Promise<void>) => {

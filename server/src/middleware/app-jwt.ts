@@ -2,7 +2,7 @@ import * as jwt from 'jsonwebtoken'
 import * as Koa from 'koa'
 import dayjs from 'dayjs'
 import unless = require('koa-unless')
-import ResultUtils from '../utils/result-utils'
+import ResultUtils from '@/utils/result-utils'
 
 export const secret = 'hahahahahah' + dayjs().format('YYYYMM')
 

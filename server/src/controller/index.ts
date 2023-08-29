@@ -1,6 +1,6 @@
-import user from './user.controller'
-import device from './device.controller'
-import product from './product.controller'
-import file from './file.controller'
+import user from '@/controller/user.controller'
+import device from '@/controller/device.controller'
+import product from '@/controller/product.controller'
+import file from '@/controller/file.controller'
 
 export default [user, device, product, file]
