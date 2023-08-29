@@ -1,5 +1,6 @@
+require('module-alias/register')
 import { Koast } from 'koast'
-import routers from './controller'
+import routers from '@/controller'
 import logger from './utils/logger'
 import config from './config'
 import errorHandle from './middleware/error-handle'
