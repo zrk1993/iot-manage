@@ -13,23 +13,16 @@ import {
   BodySchame
 } from 'koast'
 import userModel from '../model/user.model'
-import { generateToken, verifyToken } from '../utils/auth-jwt'
+import CurUser from '../decorators/cur-user'
+import ResultUtils from '../utils/result-utils'
+import * as appJwt from '../middleware/app-jwt'
 
 @Controller('/user')
 export default class User {
   @Get('/info')
-  async info(@Ctx() ctx: Context) {
-    const { authorization } = ctx.headers
-    try {
-      const data = verifyToken(authorization as string)
-      const user = await userModel.getUserByName(data)
-      if (!user) {
-        return { code: 5001, message: '请重新登录' }
-      }
-      return { code: 0, data: { username: user.username } }
-    } catch (error) {
-      return { code: 5001, message: '请重新登录' }
-    }
+  async info(@CurUser() curUser: any) {
+    const user = await userModel.getUserByName(curUser.username)
+    return ResultUtils.success(user)
   }
 
   @Post('/login')
@@ -37,12 +30,32 @@ export default class User {
     username: joi.string().required(),
     password: joi.string().required()
   })
-  async login(@Body() body: any) {
+  async login(@Body() body: any, @Ctx() ctx: Context) {
     const { username, password } = body
     const user = await userModel.getUserByName(username)
     if (!user || user.password != password) {
-      return { code: 5000, message: '用户名或密码错误！' }
+      return ResultUtils.badRequest('账号或密码错误')
     }
-    return { code: 0, data: generateToken(user.username) }
+    const token = appJwt.sign({
+      id: user.id,
+      username: user.username
+    })
+    ctx.cookies.set('authorization', token)
+    return ResultUtils.success({ token })
+  }
+
+  @Post('/logout')
+  @Description('退出')
+  async logout(@Ctx() ctx: Context) {
+    ctx.cookies.set('authorization', '')
+    return ResultUtils.success()
+  }
+
+  @Post('/password')
+  @Description('修改密码')
+  async password(@CurUser() curUser: any, @Body() body: any) {
+    const user = await userModel.getUserByName(curUser.username)
+    // todo
+    return ResultUtils.success()
   }
 }

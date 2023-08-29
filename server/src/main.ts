@@ -2,14 +2,16 @@ import { Koast } from 'koast'
 import routers from './controller'
 import logger from './utils/logger'
 import config from './config'
+import errorHandle from './middleware/error-handle'
+import appJwt from './middleware/app-jwt'
 import './mqtt/broker'
 import './mqtt/bemfa_mqtt'
 
 async function main() {
   const app = new Koast({ proxy: true, prefix: '/api' })
 
-  app.useSwagger(routers)
-  logger.info('swagger address http://localhost:' + config.SERVER_PORT + '/swagger-ui/index.html')
+  app.use(appJwt())
+  app.use(errorHandle())
 
   app.useRouter(routers)
   app.listen(config.SERVER_PORT, () => {

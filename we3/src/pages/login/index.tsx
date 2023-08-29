@@ -20,7 +20,7 @@ const Login: React.FC = () => {
         messageApi.error(message)
         return
       }
-      dispatch(setToken(data))
+      dispatch(setToken(data?.token))
       navigate('/', { replace: true })
     } catch (error) {
       console.error(error)

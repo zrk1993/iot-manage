@@ -2,6 +2,7 @@ import db from '../utils/db'
 import BaseModel from './base.model'
 
 export type TUser = {
+  id: string
   username: string
   password: string
 }

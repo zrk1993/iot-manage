@@ -1,7 +1,8 @@
 import { getUserInfo } from '@/api/user'
 import { useDispatch, useSelector } from '@/store'
+import { clearToken } from '@/store/reducers/globalSlice'
 import { setUserInfo } from '@/store/reducers/userSlice'
-import { Spin } from 'antd'
+import { Spin, message as antdMessage } from 'antd'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Navigate, useLocation } from 'react-router-dom'
@@ -17,8 +18,10 @@ const AuthRouter = (props: { children: JSX.Element }) => {
   useEffect(() => {
     const getInfo = async () => {
       try {
-        const { code, data } = await getUserInfo()
+        const { code, data, message } = await getUserInfo()
         if (code != 0) {
+          antdMessage.error(message)
+          dispatch(clearToken())
           navigate('/login', { replace: true })
         } else {
           dispatch(setUserInfo(data))
