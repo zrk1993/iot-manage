@@ -12,7 +12,7 @@ import {
   QuerySchame,
   BodySchame
 } from 'koast'
-import products from '../constant/products'
+import products from '@/constant/products'
 
 @Controller('/product')
 export default class Product {
