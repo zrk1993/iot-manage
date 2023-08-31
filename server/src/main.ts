@@ -20,4 +20,8 @@ async function main() {
   })
 }
 
+process.on('rejectionHandled', logger.error.bind(logger))
+process.on('uncaughtException', logger.error.bind(logger))
+process.on('warning', logger.warn.bind(logger))
+
 main()

@@ -1,29 +1,11 @@
 import { deviceInfo } from '@/api/device'
 import StatusTag from '@/components/StatusTag'
 import { useRequest } from 'ahooks'
-import { Button, Descriptions, Spin, Upload, message as antdMessage } from 'antd'
-import type { DescriptionsProps, UploadProps } from 'antd'
+import { Descriptions, Spin } from 'antd'
+import type { DescriptionsProps } from 'antd'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-
-const props: UploadProps = {
-  name: 'file',
-  action: '/api/file/upload',
-  headers: {
-    authorization: 'authorization-text'
-  },
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList)
-    }
-    if (info.file.status === 'done') {
-      antdMessage.success(`${info.file.name} file uploaded successfully`)
-    } else if (info.file.status === 'error') {
-      antdMessage.error(`${info.file.name} file upload failed.`)
-    }
-  }
-}
 
 const BaseInfo = () => {
   const { id } = useParams()
@@ -79,17 +61,6 @@ const BaseInfo = () => {
             key: 'disconnect_time',
             label: '断开时间',
             children: v.disconnect_time ? dayjs(v.disconnect_time).format('YY-MM-DD HH:mm:ss') : ''
-          },
-          {
-            key: 'img',
-            label: '图片',
-            children: (
-              <div>
-                <Upload {...props}>
-                  <Button>Click to Upload</Button>
-                </Upload>
-              </div>
-            )
           }
         ]
         setItems(data)

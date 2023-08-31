@@ -27,7 +27,7 @@ void update_error(int err) {
  * 在需要升级的地方，加上这个函数即可，例如setup中加的updateBin(); 
  * 原理：通过http请求获取远程固件，实现升级
  */
-void updateBin(String upUrl){
+void updateBin(String upUrl, String currentVersion){
   Serial.println("start update");    
   WiFiClient UpdateClient;
 
@@ -36,7 +36,7 @@ void updateBin(String upUrl){
   ESPhttpUpdate.onProgress(update_progress); //当升级中
   ESPhttpUpdate.onError(update_error); //当升级失败时
 
-  t_httpUpdate_return ret = ESPhttpUpdate.update(UpdateClient, upUrl);
+  t_httpUpdate_return ret = ESPhttpUpdate.update(UpdateClient, upUrl, currentVersion);
   switch(ret) {
     case HTTP_UPDATE_FAILED:      //当升级失败
         Serial.println("[update] Update failed.");

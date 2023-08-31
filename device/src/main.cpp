@@ -3,7 +3,7 @@
 #include <WiFiManager.h>
 #include "PubSubClient.h"
 #include "ota.h"
-#define ID_MQTT  "D2308B183F28E2BA"     //用户私钥，控制台获取
+#define ID_MQTT "D2308B183F28E2BA"     //用户私钥，控制台获取
 
 const char* mqtt_server = "192.168.200.54"; //默认，MQTT服务器
 const int mqtt_server_port = 9501;      //默认，MQTT服务器
@@ -32,7 +32,8 @@ void callback(char* topic, byte* payload, size_t length) {
 		msg += (char)payload[i];
 	}
 	if (strcmp(msg.c_str(), "UPDATE")) {
-		updateBin(msg);
+		String h = "http://192.168.200.54:9500/api/firmware/update/";
+		updateBin(h + ID_MQTT, "1.1.1");
 	}
 	Serial.print("Msg:");
 	Serial.println(msg);

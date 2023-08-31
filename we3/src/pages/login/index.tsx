@@ -1,8 +1,9 @@
 import { login } from '@/api/user'
 import { useDispatch } from '@/store/index'
 import { setToken } from '@/store/reducers/globalSlice'
+import globalMsg from '@/utils/global-msg'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Form, Input, message as antdMessage } from 'antd'
+import { Button, Form, Input } from 'antd'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,7 +11,7 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [messageApi, contextHolder] = antdMessage.useMessage()
+  const [messageApi, contextHolder] = globalMsg.useMessage()
 
   const onFinish = async (formData: any) => {
     setLoading(true)

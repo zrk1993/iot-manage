@@ -1,7 +1,8 @@
 import { deviceAdd } from '@/api/device'
 import { productList } from '@/api/product'
+import globalMsg from '@/utils/global-msg'
 import { useRequest } from 'ahooks'
-import { Form, Input, Modal, Select, message as antdMessage } from 'antd'
+import { Form, Input, Modal, Select } from 'antd'
 import React, { useState } from 'react'
 
 const { Option } = Select
@@ -40,7 +41,7 @@ const DeviceAddForm: React.FC<DeviceAddFormProps> = ({ open, onCreate, onCancel 
             try {
               const { code, message } = await deviceAdd(values)
               if (code != 0) {
-                antdMessage.error(message)
+                globalMsg.error(message)
                 return
               }
             } catch (error) {

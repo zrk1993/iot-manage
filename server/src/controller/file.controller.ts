@@ -13,7 +13,7 @@ import {
   BodySchame
 } from 'koast'
 
-import fs from 'fs'
+import dayjs from 'dayjs'
 import path from 'path'
 
 const send = require('koa-send')
@@ -21,11 +21,17 @@ const multer = require('@koa/multer')
 
 const storage = multer.diskStorage({
   destination: function (req: any, file: any, cb: any) {
-    cb(null, './upload')
+    if (['image/png', 'image/jpg', 'image/jpeg'].includes(file.mimetype)) {
+      cb(null, './upload/image')
+    } else if ('application/macbinary' == file.mimetype) {
+      cb(null, './upload/bin')
+    } else {
+      cb(new Error('mimetype not allow'))
+    }
   },
   filename: function (req: any, file: any, cb: any) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname))
+    const uniqueSuffix = dayjs().format('YYMMDD_HHmmss') + '_' + Math.round(Math.random() * 1e3)
+    cb(null, uniqueSuffix + path.extname(file.originalname))
   }
 })
 
