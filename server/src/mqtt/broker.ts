@@ -1,7 +1,6 @@
 import type { Client, AuthenticateError } from 'aedes'
 import Aedes from 'aedes'
 import { createServer } from 'net'
-import bemfa_mqtt from '@/mqtt/bemfa_mqtt'
 import deviceModel from '@/model/device.model'
 import logger from '@/utils/logger'
 
@@ -27,9 +26,24 @@ aedes.authorizeSubscribe = async function (client, sub, callback) {
     return callback(new Error('wrong device'))
   }
   if (sub.topic !== device.mac_address) {
+    // /ota/device/upgrade/product_id/device_id
+    // /sys/product_id/device_id
     // return callback(new Error('wrong topic'))
   }
   callback(null, sub)
+}
+
+aedes.authorizePublish = async function (client, packet, callback) {
+  const device = await deviceModel.getById(client.id)
+  if (!device) {
+    return callback(new Error('wrong device'))
+  }
+  if (packet.topic !== device.mac_address) {
+    // /ota/device/upgrade/product_id/device_id
+    // /sys/product_id/device_id
+    // return callback(new Error('wrong topic'))
+  }
+  callback(null)
 }
 
 aedes.on('clientReady', async client => {
@@ -40,11 +54,6 @@ aedes.on('clientReady', async client => {
       connect_time: new Date(),
       remote_address: (client.conn as any).remoteAddress?.replace('::ffff:', '')
     })
-    if (device.bemfa_iot && device.bemfa_topic) {
-      bemfa_mqtt.subscribe(device.bemfa_topic, error => {
-        if (error) logger.error(error)
-      })
-    }
   }
 })
 
@@ -55,11 +64,6 @@ aedes.on('clientDisconnect', async client => {
       status: -1,
       disconnect_time: new Date()
     })
-    if (device.bemfa_iot && device.bemfa_topic) {
-      bemfa_mqtt.unsubscribe(device.bemfa_topic, err => {
-        if (err) logger.error(err.message)
-      })
-    }
   }
 })
 
