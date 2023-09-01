@@ -22,10 +22,6 @@ export default class BaseService<T> {
     return await db.table(this.$tableName).select()
   }
 
-  async getPage(): Promise<T[]> {
-    return await db.table(this.$tableName).select()
-  }
-
   async deleteById(id: string | number) {
     return await db
       .table(this.$tableName)

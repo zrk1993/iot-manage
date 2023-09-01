@@ -24,10 +24,7 @@ export default class Device {
   @Get('/list')
   async list(@Query() query: any) {
     const { page, size } = query
-    const res = await deviceModel.getPage()
-    res.forEach(v => {
-      v.product_type_name = products.find(p => p.type == v.product_type).name
-    })
+    const res = await deviceModel.page(page, size)
     return ResultUtils.success(res)
   }
 
@@ -45,6 +42,10 @@ export default class Device {
 
   @Post('/edit')
   async edit(@Body() body: TDevice) {
+    const device = await deviceModel.getById(body.device_id)
+    if (!device) {
+      return ResultUtils.badRequest('device not exist')
+    }
     const r = await deviceModel.updateById(body.id, body)
     return ResultUtils.success(r)
   }
