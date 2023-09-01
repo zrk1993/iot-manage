@@ -13,10 +13,10 @@ export type TTSL_DATA = {
 
 const tableName = 'tsl_data'
 
-export class TSL_DdataModel extends BaseModel<TTSL_DATA> {
+export class TslDataModel extends BaseModel<TTSL_DATA> {
   constructor() {
     super({ tableName, primaryKey: 'tsl_data_id' })
   }
 }
 
-export default new TSL_DdataModel()
+export default new TslDataModel()

@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@koa/multer": "^3.0.2",
     "aedes": "^0.50.0",
     "axios": "^1.4.0",
     "dayjs": "^1.11.9",
@@ -19,14 +18,17 @@
     "multer": "^1.4.5-lts.1",
     "soul-orm": "git+https://github.com/zrk1993/soul-orm.git",
     "sqlite": "^5.0.1",
-    "sqlite3": "^5.1.6"
+    "sqlite3": "^5.1.6",
+    "uuid": "^9.0.0"
   },
   "_moduleAliases": {
     "@": "./src"
   },
   "devDependencies": {
+    "@koa/multer": "^3.0.2",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/koa": "^2.13.4",
+    "@types/uuid": "^9.0.3",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2"
   },
