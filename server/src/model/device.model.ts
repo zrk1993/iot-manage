@@ -4,23 +4,22 @@ import BaseModel from '@/model/base.model'
 export const tableName = 'device'
 
 export interface TDevice {
-  id: string
-  name: string
-  product_type: string
+  device_id: number
+  product_id: number
+  fireware_id: number
+  device_name: string
   mac_address: string
+  device_key: string
+  client_ip: string
   status: number
   create_time: Date
-  connect_time: Date
-  disconnect_time: Date
-  remote_address: string
-  bemfa_iot: number
-  bemfa_topic: string
+  last_time: Date
   [prop: string]: any
 }
 
 export class DeviceModel extends BaseModel<TDevice> {
   constructor() {
-    super({ tableName, primaryKey: 'id' })
+    super({ tableName, primaryKey: 'device_id' })
   }
 
   async getByName(uname: string): Promise<TDevice> {
