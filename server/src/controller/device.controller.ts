@@ -34,7 +34,7 @@ export default class Device {
     product_type: joi.string().required()
   })
   async add(@Body() body: TDevice) {
-    body.id = uuid()
+    body.device_key = uuid()
     body.create_time = new Date()
     const r = await deviceModel.insert(body)
     return ResultUtils.success(r)
@@ -52,10 +52,10 @@ export default class Device {
 
   @Get('/info')
   @QuerySchame({
-    id: joi.string().required()
+    device_id: joi.string().required()
   })
-  async info(@Query() query: Pick<TDevice, 'id'>) {
-    const device = await deviceModel.getById(query.id)
+  async info(@Query() query: Pick<TDevice, 'device_id'>) {
+    const device = await deviceModel.getById(query.device_id)
     if (!device) return { code: 5000, message: '设备不存在！' }
     device.product_type_name = products.find(p => p.type == device.product_type)?.name
     return ResultUtils.success(device)
@@ -63,29 +63,29 @@ export default class Device {
 
   @Post('/subscribebemfa')
   @BodySchame({
-    id: joi.string().required(),
+    device_id: joi.string().required(),
     flag: joi.number().required()
   })
   async subscribebemfa(@Body() body: any) {
     if (body.flag) {
-      await deviceService.subscribeBemfa(body.id)
+      await deviceService.subscribeBemfa(body.device_id)
     } else {
-      await deviceService.unsubscribeBemfa(body.id)
+      await deviceService.unsubscribeBemfa(body.device_id)
     }
     return ResultUtils.success()
   }
 
   @Post('/del')
   @BodySchame({
-    id: joi.string().required()
+    device_id: joi.string().required()
   })
-  async del(@Body() body: Pick<TDevice, 'id'>) {
-    const device = await deviceModel.getById(body.id)
+  async del(@Body() body: Pick<TDevice, 'device_id'>) {
+    const device = await deviceModel.getById(body.device_id)
     if (!device) return { code: 5000 }
     if (device.bemfa_iot) {
-      await deviceService.unsubscribeBemfa(device.id)
+      await deviceService.unsubscribeBemfa(device.device_id)
     }
-    const result = await deviceModel.deleteById(device.id)
+    const result = await deviceModel.deleteById(device.device_id)
     return ResultUtils.success(result)
   }
 }

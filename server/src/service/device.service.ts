@@ -5,7 +5,7 @@ import products from '@/constant/products'
 import bemfa_mqtt from '@/mqtt/bemfa_mqtt'
 import logger from '@/utils/logger'
 
-export async function subscribeBemfa(id: string) {
+export async function subscribeBemfa(id: number) {
   const device = await deviceModel.getById(id)
   if (!device) {
     throw new Error('设备不存在！')
@@ -23,7 +23,7 @@ export async function subscribeBemfa(id: string) {
   await deviceModel.updateById(id, { bemfa_topic: device.bemfa_topic, bemfa_iot: 1 })
 }
 
-export async function unsubscribeBemfa(id: string) {
+export async function unsubscribeBemfa(id: number) {
   const device = await deviceModel.getById(id)
   if (!device) {
     throw new Error('设备不存在！')
