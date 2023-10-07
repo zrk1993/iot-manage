@@ -1,4 +1,4 @@
-import { deviceDel, deviceList } from '@/api/device'
+import { productDel, productList } from '@/api/product'
 import StatusTag from '@/components/StatusTag'
 import { useRequest } from 'ahooks'
 import { Button, Popconfirm, Space, Table, message as antdMessage } from 'antd'
@@ -16,7 +16,7 @@ type TDevice = {
 
 const Product: React.FC = () => {
   const [dataSource, setSataSource] = useState([])
-  const { loading, run } = useRequest(deviceList, {
+  const { loading, run } = useRequest(productList, {
     manual: true,
     onSuccess: result => {
       if (result) {
@@ -25,7 +25,7 @@ const Product: React.FC = () => {
     }
   })
   const onSearch = () => {
-    run(dataSource)
+    run({})
   }
   const [columns] = useState<ColumnsType<TDevice>>([
     {
@@ -67,7 +67,7 @@ const Product: React.FC = () => {
             okText='删除'
             description='确认删除设备！'
             onConfirm={async () => {
-              const res = await deviceDel({ id })
+              const res = await productDel({ id })
               if (res.code != 0) {
                 return antdMessage.error(res.message)
               }
@@ -84,7 +84,7 @@ const Product: React.FC = () => {
   ])
 
   useEffect(() => {
-    run(dataSource)
+    run({})
   }, [])
 
   return (

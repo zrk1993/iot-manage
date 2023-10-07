@@ -13,6 +13,12 @@ const routes: RouteProps[] = [
     element: lazyLoad(React.lazy(() => import('@/pages/home')))
   },
   {
+    path: '/product',
+    icon: <BulbFilled />,
+    name: '产品管理',
+    element: lazyLoad(React.lazy(() => import('@/pages/product')))
+  },
+  {
     path: '/device',
     icon: <AlertFilled />,
     name: '设备管理',
@@ -22,12 +28,6 @@ const routes: RouteProps[] = [
     path: '/device/detail/:id',
     meta: { hide: true },
     element: lazyLoad(React.lazy(() => import('@/pages/device/detail')))
-  },
-  {
-    path: '/product',
-    icon: <BulbFilled />,
-    name: '产品管理',
-    element: lazyLoad(React.lazy(() => import('@/pages/product')))
   }
 ]
 

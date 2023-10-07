@@ -27,7 +27,7 @@ const Device: React.FC = () => {
     }
   })
   const onSearch = () => {
-    run(dataSource)
+    run({})
   }
   const [columns] = useState<ColumnsType<TDevice>>([
     {
@@ -86,7 +86,7 @@ const Device: React.FC = () => {
   ])
 
   useEffect(() => {
-    run(dataSource)
+    run({})
   }, [])
 
   return (
