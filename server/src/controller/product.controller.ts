@@ -14,10 +14,21 @@ import {
 } from 'koast'
 import productModel from '@/model/product.model'
 import ResultUtils from '@/utils/result-utils'
+import randomString from '@/utils/random-string'
 import type { TProduct } from '@/model/product.model'
 
 @Controller('/product')
 export default class Product {
+  @Get('/info')
+  @QuerySchame({
+    product_id: joi.string().required()
+  })
+  async info(@Query() query: Pick<TProduct, 'product_id'>) {
+    const product = await productModel.getById(query.product_id)
+    if (!product) return { code: 5000, message: '产品不存在！' }
+    return ResultUtils.success(product)
+  }
+
   @Get('/page')
   async page(@Query() query: any) {
     const { page, size } = query
@@ -33,7 +44,11 @@ export default class Product {
 
   @Post('/add')
   async add(@Body() body: TProduct) {
-    const r = await productModel.insert(body)
+    const product_key = randomString(10)
+    const r = await productModel.insert({
+      product_key,
+      ...body
+    })
     return ResultUtils.success(r)
   }
 

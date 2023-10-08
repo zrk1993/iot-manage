@@ -7,7 +7,7 @@ export type TProduct = {
   product_key: string
 }
 
-const tableName = 'Product'
+const tableName = 'product'
 
 export class ProductModel extends BaseModel<TProduct> {
   constructor() {

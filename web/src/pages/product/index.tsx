@@ -1,17 +1,16 @@
 import { productDel, productList } from '@/api/product'
-import StatusTag from '@/components/StatusTag'
 import { useRequest } from 'ahooks'
 import { Button, Popconfirm, Space, Table, message as antdMessage } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-type TDevice = {
-  id: string
-  name: string
-  product_type_name: string
-  bemfa: boolean
-  status: string
+import ProductAddForm from './components/ProductAddForm'
+
+type TProduct = {
+  product_id: number
+  product_name: string
+  product_key: string
 }
 
 const Product: React.FC = () => {
@@ -27,47 +26,31 @@ const Product: React.FC = () => {
   const onSearch = () => {
     run({})
   }
-  const [columns] = useState<ColumnsType<TDevice>>([
+  const [columns] = useState<ColumnsType<TProduct>>([
     {
-      title: '设备',
-      dataIndex: 'name',
-      key: 'name',
-      render: (_, { name, id }) => <Link to={'/device/detail/' + id}>{name}</Link>
+      title: '产品名称',
+      dataIndex: 'product_name',
+      key: 'product_name',
+      render: (_, { product_name, product_id }) => <Link to={'/product/detail/' + product_id}>{product_name}</Link>
     },
     {
-      title: '类型',
-      dataIndex: 'product_type_name',
-      key: 'product_type_name',
-      render: (_, { product_type_name }) => <>{product_type_name}</>
-    },
-    {
-      title: '状态',
-      key: 'status',
-      dataIndex: 'status',
-      filters: [
-        {
-          text: '在线',
-          value: '在线'
-        },
-        {
-          text: '离线',
-          value: '离线'
-        }
-      ],
-      render: (_, { status }) => <StatusTag status={status}></StatusTag>
+      title: '产品ID',
+      dataIndex: 'product_key',
+      key: 'product_key',
+      render: (_, { product_key }) => <>{product_key}</>
     },
     {
       title: '操作',
       key: 'action',
-      render: (_, { id }) => (
+      render: (_, { product_id }) => (
         <Space size='middle'>
           <Popconfirm
             title='提示'
             cancelText='取消'
             okText='删除'
-            description='确认删除设备！'
+            description='确认删除产品！'
             onConfirm={async () => {
-              const res = await productDel({ id })
+              const res = await productDel({ product_id })
               if (res.code != 0) {
                 return antdMessage.error(res.message)
               }
@@ -83,15 +66,32 @@ const Product: React.FC = () => {
     }
   ])
 
+  const [open, setOpen] = useState(false)
+
+  const onCreate = (values: any) => {
+    console.log('Received values of form: ', values)
+    setOpen(false)
+    onSearch()
+  }
+
   useEffect(() => {
     run({})
   }, [])
 
   return (
     <div>
+      <ProductAddForm
+        open={open}
+        onCreate={onCreate}
+        onCancel={() => {
+          setOpen(false)
+        }}
+      ></ProductAddForm>
       <div className='flex justify-between'>
         <div className='text-base text-black font-semibold pl-1'>产品列表</div>
-        <Button type='primary'>新建</Button>
+        <Button type='primary' onClick={() => setOpen(true)}>
+          新建
+        </Button>
       </div>
       <Table rowKey='id' className='mt-4' loading={loading} columns={columns} dataSource={dataSource} />
     </div>

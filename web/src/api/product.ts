@@ -1,5 +1,12 @@
 import request from './request'
 
+export async function productInfo(data: object) {
+  return request('/product/info', {
+    method: 'GET',
+    params: data
+  })
+}
+
 export async function productList(data: object) {
   return request('/product/list', {
     method: 'GET',

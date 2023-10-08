@@ -24,7 +24,7 @@ export default function Test() {
   return (
     <div className='h-full flex flex-col'>
       <Header showDrawer={showDrawer}></Header>
-      <div className='flex-1 flex'>
+      <div className='flex-1 flex overflow-auto'>
         {isMobile() ? (
           <Drawer
             headerStyle={{ display: 'none' }}

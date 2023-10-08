@@ -49,7 +49,7 @@ export default class BaseService<T> {
       sql.replace(/SELECT[\s\S]*?FROM/, 'SELECT COUNT(*) AS total FROM'),
       args
     )
-    sql += ' ORDER BY id DESC LIMIT ?, ?'
+    sql += ` ORDER BY ${this.$primaryKey} DESC LIMIT ?, ?`
     args.push(page * size - size, +size)
     const data = await db.query(sql, args)
     return {

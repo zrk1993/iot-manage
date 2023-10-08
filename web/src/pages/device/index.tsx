@@ -6,7 +6,7 @@ import type { ColumnsType } from 'antd/es/table'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import QueryForm from './components/QueryForm'
+import DeviceAddForm from './components/DeviceAddForm'
 
 type TDevice = {
   id: string
@@ -85,13 +85,33 @@ const Device: React.FC = () => {
     }
   ])
 
+  const [open, setOpen] = useState(false)
+
+  const onCreate = (values: any) => {
+    console.log('Received values of form: ', values)
+    setOpen(false)
+    onSearch()
+  }
+
   useEffect(() => {
     run({})
   }, [])
 
   return (
     <div>
-      <QueryForm search={onSearch} loading={loading} />
+      <DeviceAddForm
+        open={open}
+        onCreate={onCreate}
+        onCancel={() => {
+          setOpen(false)
+        }}
+      ></DeviceAddForm>
+      <div className='flex justify-between'>
+        <div className='text-base text-black font-semibold pl-1'>设备列表</div>
+        <Button type='primary' onClick={() => setOpen(true)}>
+          新建
+        </Button>
+      </div>
       <Table rowKey='id' className='mt-4' loading={loading} columns={columns} dataSource={dataSource} />
     </div>
   )

@@ -57,7 +57,7 @@ const DeviceAddForm: React.FC<DeviceAddFormProps> = ({ open, onCreate, onCancel 
           })
       }}
     >
-      <Form form={form} layout='vertical' name='form_in_modal' initialValues={{ name: '', product_type: null }}>
+      <Form form={form} className='pt-3' layout='vertical' name='form_in_modal' initialValues={{ name: '', product_type: null }}>
         <Form.Item name='name' label='设备名' rules={[{ required: true, message: '请输入设备名' }]}>
           <Input placeholder='请输入设备名称' />
         </Form.Item>
