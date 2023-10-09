@@ -14,6 +14,10 @@ export class ProductModel extends BaseModel<TProduct> {
     super({ tableName, primaryKey: 'product_id' })
   }
 
+  async getByKey(product_key: string): Promise<TProduct> {
+    return this.$db.table(tableName).where({ product_key }).findOrEmpty()
+  }
+
   async list(): Promise<TProduct[]> {
     return db.query(
       `SELECT p.*,

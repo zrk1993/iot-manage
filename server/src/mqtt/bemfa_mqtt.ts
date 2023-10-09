@@ -21,21 +21,21 @@ client.on('connect', packet => {
 
 client.on('message', async function (topic, message) {
   const device = await deviceModel.getByBemfaTopic(topic)
-  if (device?.bemfa_iot) {
-    broker.publish(
-      {
-        cmd: 'publish',
-        qos: 1,
-        dup: false,
-        topic: device.mac_address,
-        payload: message,
-        retain: false
-      },
-      err => {
-        if (err) logger.error(err.message)
-      }
-    )
-  }
+  // if (device?.bemfa_iot) {
+  //   broker.publish(
+  //     {
+  //       cmd: 'publish',
+  //       qos: 1,
+  //       dup: false,
+  //       topic: device.mac_address,
+  //       payload: message,
+  //       retain: false
+  //     },
+  //     err => {
+  //       if (err) logger.error(err.message)
+  //     }
+  //   )
+  // }
 })
 
 export default client

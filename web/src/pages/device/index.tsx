@@ -39,9 +39,16 @@ const Device: React.FC = () => {
       render: (_, { device_name, device_id }) => <Link to={'/device/detail/' + device_id}>{device_name}</Link>
     },
     {
+      title: 'deviceKey',
+      dataIndex: 'device_key',
+      key: 'device_key',
+      render: (_, { device_key }) => <>{device_key}</>
+    },
+    {
       title: '所属产品',
       dataIndex: 'product_name',
       key: 'product_name',
+      responsive: ['md'],
       render: (_, { product_name }) => <>{product_name}</>
     },
     {
@@ -64,6 +71,7 @@ const Device: React.FC = () => {
       title: '最后上线时间',
       dataIndex: 'last_time',
       key: 'last_time',
+      responsive: ['md'],
       render: (_, { last_time }) => <>{last_time || '-'}</>
     },
     {
@@ -120,7 +128,7 @@ const Device: React.FC = () => {
           新建
         </Button>
       </div>
-      <Table rowKey='id' className='mt-4' loading={loading} columns={columns} dataSource={dataSource} />
+      <Table rowKey='device_id' className='mt-4' loading={loading} columns={columns} dataSource={dataSource} />
     </div>
   )
 }

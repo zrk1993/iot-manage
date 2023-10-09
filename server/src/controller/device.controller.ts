@@ -15,10 +15,17 @@ import {
 import type { TDevice } from '@/model/device.model'
 import deviceModel from '@/model/device.model'
 import ResultUtils from '@/utils/result-utils'
+import cache from '@/utils/cache'
 import * as deviceService from '@/service/device.service'
 
 @Controller('/device')
 export default class Device {
+  @Get('/suggestDeviceKey')
+  async suggestDeviceKey(@Query() query: any) {
+    const suggestDeviceKey = cache.get('suggestDeviceKey') || []
+    return ResultUtils.success(suggestDeviceKey)
+  }
+
   @Get('/list')
   async list(@Query() query: any) {
     const { page, size } = query
@@ -43,7 +50,7 @@ export default class Device {
     if (!device) {
       return ResultUtils.badRequest('device not exist')
     }
-    const r = await deviceModel.updateById(body.id, body)
+    const r = await deviceModel.updateById(body.device_id, body)
     return ResultUtils.success(r)
   }
 
@@ -78,9 +85,9 @@ export default class Device {
   async del(@Body() body: Pick<TDevice, 'device_id'>) {
     const device = await deviceModel.getById(body.device_id)
     if (!device) return { code: 5000 }
-    if (device.bemfa_iot) {
-      await deviceService.unsubscribeBemfa(device.device_id)
-    }
+    // if (device.bemfa_iot) {
+    //   await deviceService.unsubscribeBemfa(device.device_id)
+    // }
     const result = await deviceModel.deleteById(device.device_id)
     return ResultUtils.success(result)
   }

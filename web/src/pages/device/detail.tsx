@@ -16,8 +16,23 @@ const DeviceDetail: React.FC = () => {
       children: <BaseInfo></BaseInfo>
     },
     {
+      key: '3',
+      label: '运行状态',
+      children: ''
+    },
+    {
+      key: '4',
+      label: '事件管理',
+      children: ''
+    },
+    {
       key: '5',
-      label: 'OTA升级',
+      label: '服务调用',
+      children: ''
+    },
+    {
+      key: '2',
+      label: 'Topic列表',
       children: ''
     }
   ]

@@ -8,18 +8,20 @@ export interface TDevice {
   product_id: number
   fireware_id: number
   device_name: string
-  mac_address: string
   device_key: string
   client_ip: string
   status: number
   create_time: Date
   last_time: Date
-  [prop: string]: any
 }
 
 export class DeviceModel extends BaseModel<TDevice> {
   constructor() {
     super({ tableName, primaryKey: 'device_id' })
+  }
+
+  async getByKey(device_key: string): Promise<TDevice> {
+    return this.$db.table(tableName).where({ device_key }).findOrEmpty()
   }
 
   async getById(id: number | string): Promise<TDevice> {
@@ -31,10 +33,6 @@ export class DeviceModel extends BaseModel<TDevice> {
       [id]
     )
     return res?.[0]
-  }
-
-  async getByName(uname: string): Promise<TDevice> {
-    return this.$db.table(tableName).where({ uname }).findOrEmpty()
   }
 
   async getByBemfaTopic(bemfa_topic: string): Promise<TDevice> {

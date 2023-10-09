@@ -1,70 +1,91 @@
 import type { Client, AuthenticateError } from 'aedes'
 import Aedes from 'aedes'
 import { createServer } from 'net'
+import productModel from '@/model/product.model'
 import deviceModel from '@/model/device.model'
 import logger from '@/utils/logger'
+import cache from '@/utils/cache'
+import { parseClientId } from '@/utils/mtqq-tool'
 
 const port = 9501
 const aedes = new Aedes()
 
-aedes.authenticate = async function (client, username, password, callback) {
-  const device = await deviceModel.getById(client.id)
-  if (!device) {
-    const error = new Error('Auth error') as AuthenticateError
+aedes.authenticate = async function (client, productKey, password, callback) {
+  try {
+    if (password.toString() != '123456780') {
+      throw new Error('Auth error')
+    }
+    const product = await productModel.getByKey(productKey)
+    if (!product) {
+      throw new Error('Product error')
+    }
+    const { device_key } = parseClientId(client.id)
+    const device = await deviceModel.getByKey(device_key)
+    if (!device) {
+      const suggestDeviceKey: any[] = cache.get('suggestDeviceKey') || []
+      suggestDeviceKey.unshift({
+        device_key: device_key,
+        product_key: product.product_key,
+        product_name: product.product_name,
+        time: Date.now()
+      })
+      cache.set('suggestDeviceKey', suggestDeviceKey.slice(0, 5))
+      throw new Error('Device error')
+    }
+  } catch (error: any) {
     error.returnCode = 4
+    logger.error(error)
     return callback(error, null)
   }
-  if (!device.mac_address) {
-    await deviceModel.updateById(device.id, { mac_address: username })
-  }
-  callback(null, client.id === device.id)
-}
-
-aedes.authorizeSubscribe = async function (client, sub, callback) {
-  const device = await deviceModel.getById(client.id)
-  if (!device) {
-    return callback(new Error('wrong device'))
-  }
-  if (sub.topic !== device.mac_address) {
-    // /ota/device/upgrade/product_id/device_id
-    // /sys/product_id/device_id
-    // return callback(new Error('wrong topic'))
-  }
-  callback(null, sub)
-}
-
-aedes.authorizePublish = async function (client, packet, callback) {
-  const device = await deviceModel.getById(client.id)
-  if (!device) {
-    return callback(new Error('wrong device'))
-  }
-  if (packet.topic !== device.mac_address) {
-    // /ota/device/upgrade/product_id/device_id
-    // /sys/product_id/device_id
-    // return callback(new Error('wrong topic'))
-  }
-  callback(null)
+  callback(null, true)
 }
 
 aedes.on('clientReady', async client => {
-  const device = await deviceModel.getById(client.id)
+  const device = await deviceModel.getByKey(parseClientId(client.id).device_key)
   if (device) {
-    await deviceModel.updateById(device.id, {
+    await deviceModel.updateById(device.device_id, {
       status: 1,
-      connect_time: new Date(),
-      remote_address: (client.conn as any).remoteAddress?.replace('::ffff:', '')
+      last_time: new Date(),
+      client_ip: (client.conn as any).remoteAddress?.replace('::ffff:', '')
     })
   }
+
+  aedes.publish(
+    {
+      cmd: 'publish',
+      qos: 1,
+      dup: false,
+      topic: `/sys/${client.id}/thing/event/clientReady/post`,
+      payload: 'message',
+      retain: false
+    },
+    err => {
+      if (err) logger.error(err.message)
+    }
+  )
 })
 
 aedes.on('clientDisconnect', async client => {
-  const device = await deviceModel.getById(client.id)
+  const device = await deviceModel.getByKey(parseClientId(client.id).device_key)
   if (device) {
-    await deviceModel.updateById(device.id, {
+    await deviceModel.updateById(device.device_id, {
       status: -1,
-      disconnect_time: new Date()
+      last_time: new Date()
     })
   }
+  aedes.publish(
+    {
+      cmd: 'publish',
+      qos: 1,
+      dup: false,
+      topic: `/sys/${client.id}/thing/event/disconnect/post`,
+      payload: 'message',
+      retain: false
+    },
+    err => {
+      if (err) logger.error(err.message)
+    }
+  )
 })
 
 const server = createServer(aedes.handle)
