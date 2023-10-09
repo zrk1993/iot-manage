@@ -14,8 +14,6 @@ import {
 } from 'koast'
 import type { TDevice } from '@/model/device.model'
 import deviceModel from '@/model/device.model'
-import products from '@/constant/products'
-import uuid from '@/utils/uuid'
 import ResultUtils from '@/utils/result-utils'
 import * as deviceService from '@/service/device.service'
 
@@ -30,12 +28,11 @@ export default class Device {
 
   @Post('/add')
   @BodySchame({
-    name: joi.string().required(),
-    product_type: joi.string().required()
+    product_id: joi.number().required(),
+    device_name: joi.string().required(),
+    device_key: joi.string().required()
   })
   async add(@Body() body: TDevice) {
-    body.device_key = uuid()
-    body.create_time = new Date()
     const r = await deviceModel.insert(body)
     return ResultUtils.success(r)
   }
@@ -57,7 +54,6 @@ export default class Device {
   async info(@Query() query: Pick<TDevice, 'device_id'>) {
     const device = await deviceModel.getById(query.device_id)
     if (!device) return { code: 5000, message: '设备不存在！' }
-    device.product_type_name = products.find(p => p.type == device.product_type)?.name
     return ResultUtils.success(device)
   }
 
@@ -77,7 +73,7 @@ export default class Device {
 
   @Post('/del')
   @BodySchame({
-    device_id: joi.string().required()
+    device_id: joi.number().required()
   })
   async del(@Body() body: Pick<TDevice, 'device_id'>) {
     const device = await deviceModel.getById(body.device_id)

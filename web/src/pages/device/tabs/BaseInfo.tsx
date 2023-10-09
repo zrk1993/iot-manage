@@ -18,14 +18,14 @@ const BaseInfo = () => {
         const v = result.data
         const data: DescriptionsProps['items'] = [
           {
-            key: 'name',
+            key: 'device_name',
             label: '设备名称',
-            children: v.name
+            children: v.device_name
           },
           {
-            key: 'id',
-            label: 'ID',
-            children: v.id
+            key: 'device_key',
+            label: 'deviceKey',
+            children: v.device_key
           },
           {
             key: 'status',
@@ -33,19 +33,14 @@ const BaseInfo = () => {
             children: <StatusTag status={v.status}></StatusTag>
           },
           {
-            key: 'product_type_name',
-            label: '产品类型',
-            children: v.product_type_name
+            key: 'product_name',
+            label: '所属产品',
+            children: v.product_name
           },
           {
-            key: 'mac_address',
-            label: 'MAC地址',
-            children: v.mac_address
-          },
-          {
-            key: 'remote_address',
+            key: 'client_ip',
             label: 'IP地址',
-            children: v.remote_address
+            children: v.client_ip
           },
           {
             key: 'create_time',
@@ -53,14 +48,9 @@ const BaseInfo = () => {
             children: v.create_time ? dayjs(v.create_time).format('YY-MM-DD HH:mm:ss') : '-'
           },
           {
-            key: 'connect_time',
-            label: '连接时间',
-            children: v.connect_time ? dayjs(v.connect_time).format('YY-MM-DD HH:mm:ss') : ''
-          },
-          {
-            key: 'disconnect_time',
-            label: '断开时间',
-            children: v.disconnect_time ? dayjs(v.disconnect_time).format('YY-MM-DD HH:mm:ss') : ''
+            key: 'last_time',
+            label: '最后上线时间',
+            children: v.last_time ? dayjs(v.last_time).format('YY-MM-DD HH:mm:ss') : ''
           }
         ]
         setItems(data)
@@ -69,7 +59,7 @@ const BaseInfo = () => {
   })
 
   useEffect(() => {
-    run({ id })
+    run({ device_id: id })
   }, [])
 
   return <div>{loading ? <Spin></Spin> : <Descriptions title='' bordered items={items} />}</div>

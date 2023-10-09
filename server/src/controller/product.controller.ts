@@ -38,7 +38,7 @@ export default class Product {
 
   @Get('/list')
   async list(@Query() query: any) {
-    const res = await productModel.getAll()
+    const res = await productModel.list()
     return ResultUtils.success(res)
   }
 

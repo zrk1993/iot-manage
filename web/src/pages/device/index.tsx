@@ -9,11 +9,13 @@ import { Link } from 'react-router-dom'
 import DeviceAddForm from './components/DeviceAddForm'
 
 type TDevice = {
-  id: string
-  name: string
-  product_type_name: string
-  bemfa: boolean
+  device_id: string
+  device_name: string
+  product_name: string
+  device_key: boolean
+  client_ip: string
   status: string
+  last_time: string
 }
 
 const Device: React.FC = () => {
@@ -22,7 +24,7 @@ const Device: React.FC = () => {
     manual: true,
     onSuccess: result => {
       if (result) {
-        setSataSource(result.data)
+        setSataSource(result.data.data)
       }
     }
   })
@@ -31,16 +33,16 @@ const Device: React.FC = () => {
   }
   const [columns] = useState<ColumnsType<TDevice>>([
     {
-      title: '设备',
-      dataIndex: 'name',
-      key: 'name',
-      render: (_, { name, id }) => <Link to={'/device/detail/' + id}>{name}</Link>
+      title: '设备名称',
+      dataIndex: 'device_name',
+      key: 'device_name',
+      render: (_, { device_name, device_id }) => <Link to={'/device/detail/' + device_id}>{device_name}</Link>
     },
     {
-      title: '类型',
-      dataIndex: 'product_type_name',
-      key: 'product_type_name',
-      render: (_, { product_type_name }) => <>{product_type_name}</>
+      title: '所属产品',
+      dataIndex: 'product_name',
+      key: 'product_name',
+      render: (_, { product_name }) => <>{product_name}</>
     },
     {
       title: '状态',
@@ -59,9 +61,15 @@ const Device: React.FC = () => {
       render: (_, { status }) => <StatusTag status={status}></StatusTag>
     },
     {
+      title: '最后上线时间',
+      dataIndex: 'last_time',
+      key: 'last_time',
+      render: (_, { last_time }) => <>{last_time || '-'}</>
+    },
+    {
       title: '操作',
       key: 'action',
-      render: (_, { id }) => (
+      render: (_, { device_id }) => (
         <Space size='middle'>
           <Popconfirm
             title='提示'
@@ -69,7 +77,7 @@ const Device: React.FC = () => {
             okText='删除'
             description='确认删除设备！'
             onConfirm={async () => {
-              const res = await deviceDel({ id })
+              const res = await deviceDel({ device_id })
               if (res.code != 0) {
                 return antdMessage.error(res.message)
               }

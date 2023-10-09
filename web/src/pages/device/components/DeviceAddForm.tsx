@@ -8,8 +8,8 @@ import React, { useState } from 'react'
 const { Option } = Select
 
 interface Values {
-  name: string
-  product_type: string
+  device_name: string
+  product_id: string
 }
 
 interface DeviceAddFormProps {
@@ -57,20 +57,23 @@ const DeviceAddForm: React.FC<DeviceAddFormProps> = ({ open, onCreate, onCancel 
           })
       }}
     >
-      <Form form={form} className='pt-3' layout='vertical' name='form_in_modal' initialValues={{ name: '', product_type: null }}>
-        <Form.Item name='name' label='设备名' rules={[{ required: true, message: '请输入设备名' }]}>
-          <Input placeholder='请输入设备名称' />
-        </Form.Item>
-        <Form.Item name='product_type' label='设备类型' rules={[{ required: true, message: '请选择设备类型' }]}>
-          <Select placeholder='请选择设备类型' allowClear>
+      <Form form={form} className='pt-3' layout='vertical' name='form_in_modal' initialValues={{ device_name: '', device_key: '', product_id: null }}>
+        <Form.Item name='product_id' label='所属产品' rules={[{ required: true, message: '请选择所属产品' }]}>
+          <Select placeholder='请选择所属产品' allowClear>
             {loading
               ? null
               : products.map(v => (
-                  <Option key={v.type} value={v.type}>
-                    {v.name}
+                  <Option key={v.product_id} value={v.product_id}>
+                    {v.product_name}
                   </Option>
                 ))}
           </Select>
+        </Form.Item>
+        <Form.Item name='device_name' label='设备名' rules={[{ required: true, message: '请输入设备名' }]}>
+          <Input placeholder='请输入设备名称' />
+        </Form.Item>
+        <Form.Item name='device_key' label='deviceKey' rules={[{ required: true, message: '请输入device_key' }]}>
+          <Input placeholder='请输入device_key' />
         </Form.Item>
       </Form>
     </Modal>

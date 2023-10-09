@@ -42,7 +42,7 @@ export default class BaseService<T> {
       .update(data)
   }
 
-  async page(page: number, size: number): Promise<{ data: T[]; total: number }> {
+  async page(page: number = 1, size: number = 10): Promise<{ data: T[]; total: number }> {
     const args = []
     let sql = `SELECT * FROM t_${this.$tableName} WHERE 1=1`
     const [{ total }] = await db.query(

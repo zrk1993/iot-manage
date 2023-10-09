@@ -11,6 +11,7 @@ type TProduct = {
   product_id: number
   product_name: string
   product_key: string
+  device_count: number
 }
 
 const Product: React.FC = () => {
@@ -38,6 +39,12 @@ const Product: React.FC = () => {
       dataIndex: 'product_key',
       key: 'product_key',
       render: (_, { product_key }) => <>{product_key}</>
+    },
+    {
+      title: '设备数量',
+      dataIndex: 'device_count',
+      key: 'device_count',
+      render: (_, { device_count }) => <>{device_count}</>
     },
     {
       title: '操作',
