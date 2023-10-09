@@ -7,7 +7,6 @@ export type TTSL = {
   type: 'property' | 'service' | 'event'
   identifier: string
   name: string
-  desc: string
 }
 
 const tableName = 'tsl'

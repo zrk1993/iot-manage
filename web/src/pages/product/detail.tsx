@@ -4,6 +4,7 @@ import React from 'react'
 
 import BaseInfo from './tabs/BaseInfo'
 import TopicList from './tabs/TopicList'
+import TslConfig from './tabs/TslConfig'
 
 const DeviceDetail: React.FC = () => {
   const onChange = (key: string) => {
@@ -20,6 +21,11 @@ const DeviceDetail: React.FC = () => {
       key: '2',
       label: 'Topic列表',
       children: <TopicList></TopicList>
+    },
+    {
+      key: '3',
+      label: '物模型TSL',
+      children: <TslConfig></TslConfig>
     }
   ]
 
