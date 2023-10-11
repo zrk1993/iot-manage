@@ -22,14 +22,13 @@ aedes.authenticate = async function (client, productKey, password, callback) {
     const { device_key } = parseClientId(client.id)
     const device = await deviceModel.getByKey(device_key)
     if (!device) {
-      const suggestDeviceKey: any[] = cache.get('suggestDeviceKey') || []
-      suggestDeviceKey.unshift({
+      cache.suggestDeviceKey.unshift({
         device_key: device_key,
         product_key: product.product_key,
         product_name: product.product_name,
         time: Date.now()
       })
-      cache.set('suggestDeviceKey', suggestDeviceKey.slice(0, 5))
+      cache.suggestDeviceKey = cache.suggestDeviceKey.slice(0, 5)
       throw new Error('Device error')
     }
   } catch (error: any) {
@@ -41,7 +40,8 @@ aedes.authenticate = async function (client, productKey, password, callback) {
 }
 
 aedes.on('clientReady', async client => {
-  const device = await deviceModel.getByKey(parseClientId(client.id).device_key)
+  const { product_key, device_key } = parseClientId(client.id)
+  const device = await deviceModel.getByKey(device_key)
   if (device) {
     await deviceModel.updateById(device.device_id, {
       status: 1,
@@ -49,13 +49,12 @@ aedes.on('clientReady', async client => {
       client_ip: (client.conn as any).remoteAddress?.replace('::ffff:', '')
     })
   }
-
   aedes.publish(
     {
       cmd: 'publish',
       qos: 1,
       dup: false,
-      topic: `/sys/${client.id}/thing/event/clientReady/post`,
+      topic: `/sys/${product_key}/${device_key}/thing/event/clientReady/post`,
       payload: 'message',
       retain: false
     },
@@ -66,7 +65,8 @@ aedes.on('clientReady', async client => {
 })
 
 aedes.on('clientDisconnect', async client => {
-  const device = await deviceModel.getByKey(parseClientId(client.id).device_key)
+  const { product_key, device_key } = parseClientId(client.id)
+  const device = await deviceModel.getByKey(device_key)
   if (device) {
     await deviceModel.updateById(device.device_id, {
       status: -1,
@@ -78,7 +78,7 @@ aedes.on('clientDisconnect', async client => {
       cmd: 'publish',
       qos: 1,
       dup: false,
-      topic: `/sys/${client.id}/thing/event/disconnect/post`,
+      topic: `/sys/${product_key}/${device_key}/thing/event/disconnect/post`,
       payload: 'message',
       retain: false
     },

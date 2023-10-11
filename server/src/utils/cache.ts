@@ -1,3 +1,5 @@
-const c = new Map()
+const data = {
+  suggestDeviceKey: []
+}
 
-export default c
+export default data

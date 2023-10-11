@@ -22,8 +22,7 @@ import * as deviceService from '@/service/device.service'
 export default class Device {
   @Get('/suggestDeviceKey')
   async suggestDeviceKey(@Query() query: any) {
-    const suggestDeviceKey = cache.get('suggestDeviceKey') || []
-    return ResultUtils.success(suggestDeviceKey)
+    return ResultUtils.success(cache.suggestDeviceKey)
   }
 
   @Get('/list')
