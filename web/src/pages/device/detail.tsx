@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 
 import BaseInfo from './tabs/BaseInfo'
 import RunInfo from './tabs/RunInfo'
+import SubTopic from './tabs/SubTopic'
 import TslData from './tabs/TslData'
 
 const DeviceDetail: React.FC = () => {
@@ -33,7 +34,7 @@ const DeviceDetail: React.FC = () => {
     {
       key: '2',
       label: 'Topic列表',
-      children: ''
+      children: <SubTopic device_id={id!}></SubTopic>
     }
   ]
 

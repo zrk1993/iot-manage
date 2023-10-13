@@ -3,7 +3,7 @@ import { useRequest } from 'ahooks'
 import { Button, Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import dayjs from 'dayjs'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 type TTslData = {
   tsl_data_id: number
@@ -72,10 +72,6 @@ const TslData: React.FC<{ device_id: string }> = ({ device_id }) => {
       render: (_, { create_time }) => <div className='w-[60px] md:w-[100px]'>{dayjs(create_time).format('MM-DD HH:mm:ss')}</div>
     }
   ])
-
-  useEffect(() => {
-    run({})
-  }, [])
 
   return (
     <div>

@@ -6,6 +6,7 @@ export const tableName = 'device'
 export interface TDevice {
   device_id: number
   product_id: number
+  product_key: string
   fireware_id: number
   device_name: string
   device_key: string
@@ -26,7 +27,7 @@ export class DeviceModel extends BaseModel<TDevice> {
 
   async getById(id: number | string): Promise<TDevice> {
     const res = await this.$db.query(
-      `SELECT d.*, p.product_name
+      `SELECT d.*, p.product_name, p.product_key
       FROM t_device AS d
       LEFT JOIN t_product AS p ON p.product_id = d.product_id
       WHERE d.device_id = ?`,

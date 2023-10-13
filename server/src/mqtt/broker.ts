@@ -88,6 +88,8 @@ aedes.on('clientDisconnect', async client => {
   )
 })
 
+aedes.on('subscribe', async (subscriptions, client) => {})
+
 const server = createServer(aedes.handle)
 
 server.listen(port, function () {

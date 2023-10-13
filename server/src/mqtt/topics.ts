@@ -96,4 +96,9 @@ const topics = [
   }
 ]
 
+export const allTopic = topics.reduce<{ topic: string; desc: string }[]>((p, v) => {
+  p.push(...v.list)
+  return p
+}, [])
+
 export default topics
