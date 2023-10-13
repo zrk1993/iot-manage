@@ -26,6 +26,11 @@ const BaseInfo: React.FC<{ device_id: string }> = ({ device_id }) => {
             children: v.device_key
           },
           {
+            key: 'product_key',
+            label: 'productKey',
+            children: v.product_key
+          },
+          {
             key: 'status',
             label: '状态',
             children: <StatusTag status={v.status}></StatusTag>

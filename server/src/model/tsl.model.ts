@@ -16,6 +16,26 @@ export class TSLModel extends BaseModel<TTSL> {
     super({ tableName, primaryKey: 'tsl_id' })
   }
 
+  async getByParams(product_id: number, type: string, identifier: string): Promise<TTSL> {
+    const args = []
+    let sql = `SELECT * FROM t_tsl WHERE 1=1 `
+    if (product_id) {
+      sql += ' AND product_id = ?'
+      args.push(product_id)
+    }
+    if (type) {
+      sql += ' AND type = ?'
+      args.push(type)
+    }
+    if (identifier) {
+      sql += ' AND identifier = ?'
+      args.push(identifier)
+    }
+    sql += ' LIMIT 1'
+    const res = await db.query(sql, args)
+    return res[0]
+  }
+
   async deviceProperty(device_id: number) {
     const sql = `
     SELECT t1.value, t1.create_time, t3.type, t3.identifier, t3.name

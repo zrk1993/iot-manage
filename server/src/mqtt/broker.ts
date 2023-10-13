@@ -6,6 +6,7 @@ import deviceModel from '@/model/device.model'
 import logger from '@/utils/logger'
 import cache from '@/utils/cache'
 import { parseClientId } from '@/utils/mtqq-tool'
+import serverHandle from './server_handle'
 
 const port = 9501
 const aedes = new Aedes()
@@ -88,7 +89,7 @@ aedes.on('clientDisconnect', async client => {
   )
 })
 
-aedes.on('subscribe', async (subscriptions, client) => {})
+serverHandle(aedes)
 
 const server = createServer(aedes.handle)
 

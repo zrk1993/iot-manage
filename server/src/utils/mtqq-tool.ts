@@ -13,9 +13,9 @@ export const getClientId = (device: TDevice) => {
 }
 
 export const parseTopic = (topic: string) => {
-  const v = topic.split('/')
+  const v = topic.split('/').filter(Boolean)
   return {
-    product_key: v[0],
-    device_key: v[1]
+    product_key: v[1],
+    device_key: v[2]
   }
 }

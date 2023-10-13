@@ -1,6 +1,12 @@
-const topics = [
+type item = {
+  topic: string
+  op: '发布' | '订阅'
+  desc: string
+}
+
+const topics: { category: string; list: item[] }[] = [
   {
-    category: 'OTA 升级',
+    category: 'OTA升级',
     list: [
       {
         topic: '/ota/device/inform/${productKey}/${deviceKey}',
@@ -96,7 +102,7 @@ const topics = [
   }
 ]
 
-export const allTopic = topics.reduce<{ topic: string; desc: string }[]>((p, v) => {
+export const allTopic = topics.reduce<item[]>((p, v) => {
   p.push(...v.list)
   return p
 }, [])

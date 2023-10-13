@@ -22,6 +22,7 @@ export class DeviceModel extends BaseModel<TDevice> {
   }
 
   async getByKey(device_key: string): Promise<TDevice> {
+    if (!device_key) return null
     return this.$db.table(tableName).where({ device_key }).findOrEmpty()
   }
 
