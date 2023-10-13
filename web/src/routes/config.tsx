@@ -1,5 +1,5 @@
 import { RouteProps } from '@/types/routes'
-import { AlertFilled, BulbFilled, PieChartFilled } from '@ant-design/icons'
+import { AlertFilled, BulbFilled, ControlFilled, PieChartFilled, SoundFilled, TagFilled, VideoCameraFilled } from '@ant-design/icons'
 import React from 'react'
 
 import lazyLoad from './lazyLoad'
@@ -36,25 +36,25 @@ const routes: RouteProps[] = [
   },
   {
     path: '/ota',
-    icon: <AlertFilled />,
+    icon: <ControlFilled />,
     name: 'OTA升级',
     element: lazyLoad(React.lazy(() => import('@/pages/device')))
   },
   {
     path: '/log',
-    icon: <AlertFilled />,
+    icon: <VideoCameraFilled />,
     name: '日志服务',
     element: lazyLoad(React.lazy(() => import('@/pages/device')))
   },
   {
     path: '/cron',
-    icon: <AlertFilled />,
+    icon: <TagFilled />,
     name: '定时任务',
     element: lazyLoad(React.lazy(() => import('@/pages/device')))
   },
   {
     path: '/event',
-    icon: <AlertFilled />,
+    icon: <SoundFilled />,
     name: '事件响应',
     element: lazyLoad(React.lazy(() => import('@/pages/device')))
   }

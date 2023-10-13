@@ -3,6 +3,7 @@ import { useRequest } from 'ahooks'
 import { Button, Popconfirm, Space, Table, message as antdMessage } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import TslAddForm from '../components/TslAddForm'
 
@@ -14,6 +15,7 @@ type TTsl = {
 }
 
 const Tsl: React.FC = () => {
+  const { id } = useParams()
   const [dataSource, setSataSource] = useState([])
   const { loading, run } = useRequest(tslList, {
     manual: true,
@@ -87,6 +89,7 @@ const Tsl: React.FC = () => {
   return (
     <div>
       <TslAddForm
+        product_id={id!}
         open={open}
         onCreate={onCreate}
         onCancel={() => {

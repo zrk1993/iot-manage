@@ -16,8 +16,8 @@ import tslDataModel from '@/model/tsl_data.model'
 import type { TTSL_DATA } from '@/model/tsl_data.model'
 import ResultUtils from '@/utils/result-utils'
 
-@Controller('/firmware')
-export default class Firmware {
+@Controller('/tslData')
+export default class tslData {
   @Get('/page')
   async page(@Query() query: any) {
     const { page, size } = query

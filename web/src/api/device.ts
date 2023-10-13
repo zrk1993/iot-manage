@@ -34,3 +34,17 @@ export async function deviceInfo(data: object) {
     params: data
   })
 }
+
+export async function deviceTslProperty(data: object) {
+  return request('/device/tsl/property', {
+    method: 'GET',
+    params: data
+  })
+}
+
+export async function deviceTslData(data: object) {
+  return request('/device/tsl/data', {
+    method: 'GET',
+    params: data
+  })
+}

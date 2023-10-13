@@ -1,10 +1,15 @@
 import { Tabs } from 'antd'
 import type { TabsProps } from 'antd'
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 import BaseInfo from './tabs/BaseInfo'
+import RunInfo from './tabs/RunInfo'
+import TslData from './tabs/TslData'
 
 const DeviceDetail: React.FC = () => {
+  const { id } = useParams()
+
   const onChange = (key: string) => {
     console.log(key)
   }
@@ -13,22 +18,17 @@ const DeviceDetail: React.FC = () => {
     {
       key: '1',
       label: '设备信息',
-      children: <BaseInfo></BaseInfo>
+      children: <BaseInfo device_id={id!}></BaseInfo>
     },
     {
       key: '3',
       label: '运行状态',
-      children: ''
+      children: <RunInfo device_id={id!}></RunInfo>
     },
     {
       key: '4',
-      label: '事件管理',
-      children: ''
-    },
-    {
-      key: '5',
-      label: '服务调用',
-      children: ''
+      label: '物模型数据',
+      children: <TslData device_id={id!}></TslData>
     },
     {
       key: '2',
@@ -38,7 +38,7 @@ const DeviceDetail: React.FC = () => {
   ]
 
   return (
-    <div className='bg-white p-6 rounded-md'>
+    <div className='bg-white rounded-md pl-4 pr-2 py-6 md:p-6'>
       <div className='flex'>
         <span></span>
         <div className='text-lg text-black'>设备详情</div>

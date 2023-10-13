@@ -14,6 +14,7 @@ import {
 } from 'koast'
 import type { TDevice } from '@/model/device.model'
 import deviceModel from '@/model/device.model'
+import tslModel from '@/model/tsl.model'
 import ResultUtils from '@/utils/result-utils'
 import cache from '@/utils/cache'
 import * as deviceService from '@/service/device.service'
@@ -89,5 +90,19 @@ export default class Device {
     // }
     const result = await deviceModel.deleteById(device.device_id)
     return ResultUtils.success(result)
+  }
+
+  @Get('/tsl/property')
+  async property(@Query() query: any) {
+    const { device_id } = query
+    const res = await tslModel.deviceProperty(device_id)
+    return ResultUtils.success(res)
+  }
+
+  @Get('/tsl/data')
+  async event(@Query() query: any) {
+    const { device_id, page = 1, size = 10 } = query
+    const res = await tslModel.tslData({ device_id, page, size })
+    return ResultUtils.success(res)
   }
 }

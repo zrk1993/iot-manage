@@ -12,12 +12,13 @@ interface Values {
 }
 
 interface TslAddFormProps {
+  product_id: number | string
   open: boolean
   onCreate: (values: Values) => void
   onCancel: () => void
 }
 
-const ProductAddForm: React.FC<TslAddFormProps> = ({ open, onCreate, onCancel }) => {
+const ProductAddForm: React.FC<TslAddFormProps> = ({ open, onCreate, onCancel, product_id }) => {
   const [confirmLoading, setConfirmLoading] = useState(false)
 
   const [form] = Form.useForm()
@@ -35,7 +36,10 @@ const ProductAddForm: React.FC<TslAddFormProps> = ({ open, onCreate, onCancel })
           .then(async values => {
             setConfirmLoading(true)
             try {
-              const { code, message } = await tslAdd(values)
+              const { code, message } = await tslAdd({
+                ...values,
+                product_id
+              })
               if (code != 0) {
                 globalMsg.error(message)
                 return

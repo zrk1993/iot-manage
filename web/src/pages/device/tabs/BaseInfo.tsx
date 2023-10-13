@@ -5,10 +5,8 @@ import { Descriptions, Spin } from 'antd'
 import type { DescriptionsProps } from 'antd'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 
-const BaseInfo = () => {
-  const { id } = useParams()
+const BaseInfo: React.FC<{ device_id: string }> = ({ device_id }) => {
   const [items, setItems] = useState<DescriptionsProps['items']>([])
 
   const { loading, run } = useRequest(deviceInfo, {
@@ -34,7 +32,7 @@ const BaseInfo = () => {
           },
           {
             key: 'product_name',
-            label: '所属产品',
+            label: '所属类型',
             children: v.product_name
           },
           {
@@ -59,7 +57,7 @@ const BaseInfo = () => {
   })
 
   useEffect(() => {
-    run({ device_id: id })
+    run({ device_id })
   }, [])
 
   return <div>{loading ? <Spin></Spin> : <Descriptions title='' bordered items={items} />}</div>
