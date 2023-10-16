@@ -27,7 +27,8 @@ export default class Tsl {
 
   @Get('/list')
   async list(@Query() query: any) {
-    const res = await tslModel.getAll()
+    const { product_id } = query
+    const res = await tslModel.getByParams(product_id)
     return ResultUtils.success(res)
   }
 

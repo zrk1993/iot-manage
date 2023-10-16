@@ -26,7 +26,7 @@ const Tsl: React.FC = () => {
     }
   })
   const onSearch = () => {
-    run({})
+    run({ product_id: id })
   }
   const [columns] = useState<ColumnsType<TTsl>>([
     {
