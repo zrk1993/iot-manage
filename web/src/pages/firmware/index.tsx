@@ -1,26 +1,25 @@
-import { deviceDel, devicePage } from '@/api/device'
-import StatusTag from '@/components/StatusTag'
+import { firmwareDel, firmwareList } from '@/api/firmware'
 import { useRequest } from 'ahooks'
 import { Button, Popconfirm, Space, Table, message as antdMessage } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
+import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import DeviceAddForm from './components/DeviceAddForm'
+import FirmwareAddForm from './components/FirmwareAddForm'
 
-type TDevice = {
-  device_id: string
-  device_name: string
+type TFirmware = {
+  firmware_id: number
+  firmware_name: string
+  version: string
   product_name: string
-  device_key: boolean
-  client_ip: string
-  status: string
-  last_time: string
+  file_uid: string
+  create_time: string
 }
 
-const Device: React.FC = () => {
+const Product: React.FC = () => {
   const [dataSource, setSataSource] = useState([])
-  const { loading, run } = useRequest(devicePage, {
+  const { loading, run } = useRequest(firmwareList, {
     manual: true,
     onSuccess: result => {
       if (result) {
@@ -31,61 +30,55 @@ const Device: React.FC = () => {
   const onSearch = () => {
     run({})
   }
-  const [columns] = useState<ColumnsType<TDevice>>([
+  const [columns] = useState<ColumnsType<TFirmware>>([
     {
-      title: '设备名称',
-      dataIndex: 'device_name',
-      key: 'device_name',
-      render: (_, { device_name, device_id }) => <Link to={'/device/detail/' + device_id}>{device_name}</Link>
+      title: 'ID',
+      dataIndex: 'firmware_id',
+      key: 'firmware_id',
+      render: (_, { firmware_id }) => <>{firmware_id}</>
     },
     {
-      title: 'deviceKey',
-      dataIndex: 'device_key',
-      key: 'device_key',
-      render: (_, { device_key }) => <>{device_key}</>
+      title: '升级包',
+      dataIndex: 'firmware_name',
+      key: 'firmware_name',
+      render: (_, { firmware_name, firmware_id }) => <Link to={'/firmware/detail/' + firmware_id}>{firmware_name}</Link>
+    },
+    {
+      title: '版本号',
+      dataIndex: 'version',
+      key: 'version',
+      render: (_, { version }) => <>{version}</>
     },
     {
       title: '所属产品',
       dataIndex: 'product_name',
       key: 'product_name',
-      responsive: ['md'],
       render: (_, { product_name }) => <>{product_name}</>
     },
     {
-      title: '状态',
-      key: 'status',
-      dataIndex: 'status',
-      filters: [
-        {
-          text: '在线',
-          value: '在线'
-        },
-        {
-          text: '离线',
-          value: '离线'
-        }
-      ],
-      render: (_, { status }) => <StatusTag status={status}></StatusTag>
+      title: '文件UID',
+      dataIndex: 'file_uid',
+      key: 'file_uid',
+      render: (_, { file_uid }) => <>{file_uid}</>
     },
     {
-      title: '最后上线时间',
-      dataIndex: 'last_time',
-      key: 'last_time',
-      responsive: ['md'],
-      render: (_, { last_time }) => <>{last_time || '-'}</>
+      title: '添加时间',
+      dataIndex: 'create_time',
+      key: 'create_time',
+      render: (_, { create_time }) => <>{dayjs(create_time).format('YY-MM-DD HH:mm:ss')}</>
     },
     {
       title: '操作',
       key: 'action',
-      render: (_, { device_id }) => (
+      render: (_, { firmware_id }) => (
         <Space size='middle'>
           <Popconfirm
             title='提示'
             cancelText='取消'
             okText='删除'
-            description='确认删除设备！'
+            description='确认删除升级包！'
             onConfirm={async () => {
-              const res = await deviceDel({ device_id })
+              const res = await firmwareDel({ firmware_id })
               if (res.code != 0) {
                 return antdMessage.error(res.message)
               }
@@ -115,22 +108,22 @@ const Device: React.FC = () => {
 
   return (
     <div>
-      <DeviceAddForm
+      <FirmwareAddForm
         open={open}
         onCreate={onCreate}
         onCancel={() => {
           setOpen(false)
         }}
-      ></DeviceAddForm>
+      ></FirmwareAddForm>
       <div className='flex justify-between'>
-        <div className='text-base text-black font-semibold pl-1'>设备列表</div>
+        <div className='text-base text-black font-semibold pl-1'>升级包</div>
         <Button type='primary' onClick={() => setOpen(true)}>
-          新建
+          添加
         </Button>
       </div>
-      <Table rowKey='device_id' className='mt-4' loading={loading} columns={columns} dataSource={dataSource} />
+      <Table rowKey='firmware_id' className='mt-4' loading={loading} columns={columns} dataSource={dataSource} />
     </div>
   )
 }
 
-export default Device
+export default Product

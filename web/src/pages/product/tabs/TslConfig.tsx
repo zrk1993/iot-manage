@@ -21,7 +21,7 @@ const Tsl: React.FC = () => {
     manual: true,
     onSuccess: result => {
       if (result) {
-        setSataSource(result.data)
+        setSataSource(result.data || [])
       }
     }
   })
@@ -83,7 +83,7 @@ const Tsl: React.FC = () => {
   }
 
   useEffect(() => {
-    run({})
+    run({ product_id: id })
   }, [])
 
   return (

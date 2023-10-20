@@ -20,7 +20,7 @@ const UploadComp: FC<TProps> = props => {
     defaultFileList: [],
     onChange(info) {
       if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList)
+        //console.log(info.file, info.fileList)
       }
       if (info.file.status === 'done') {
         if (info.file.response.code != 0) {

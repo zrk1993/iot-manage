@@ -1,3 +1,4 @@
+import Back from '@/components/Back'
 import { Tabs } from 'antd'
 import type { TabsProps } from 'antd'
 import React from 'react'
@@ -31,8 +32,8 @@ const DeviceDetail: React.FC = () => {
 
   return (
     <div className='bg-white p-6 rounded-md'>
-      <div className='flex'>
-        <span></span>
+      <div className='flex items-center'>
+        <Back></Back>
         <div className='text-lg text-black'>产品详情</div>
       </div>
       <Tabs className='mb-4 mt-2' defaultActiveKey='1' items={tabItems} onChange={onChange} />

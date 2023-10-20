@@ -12,12 +12,24 @@ import {
   QuerySchame,
   BodySchame
 } from 'koast'
+import otaModel from '@/model/ota.model'
 import firmwareModel from '@/model/firmware.model'
 import ResultUtils from '@/utils/result-utils'
 import type { TFirmware } from '@/model/firmware.model'
 
 @Controller('/firmware')
 export default class Firmware {
+  @Get('/info')
+  async info(@Query() query: any) {
+    const { firmware_id } = query
+    const firmware = await firmwareModel.getById(firmware_id)
+    const statistic = await otaModel.statistic(firmware_id)
+    return ResultUtils.success({
+      firmware,
+      statistic
+    })
+  }
+
   @Get('/page')
   async page(@Query() query: any) {
     const { page, size } = query
@@ -27,7 +39,8 @@ export default class Firmware {
 
   @Get('/list')
   async list(@Query() query: any) {
-    const res = await firmwareModel.getAll()
+    const { page, size } = query
+    const res = await firmwareModel.page(page, size)
     return ResultUtils.success(res)
   }
 

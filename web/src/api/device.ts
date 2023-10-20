@@ -7,6 +7,13 @@ export async function deviceList(data: object) {
   })
 }
 
+export async function devicePage(data: object) {
+  return request('/device/page', {
+    method: 'GET',
+    params: data
+  })
+}
+
 export async function suggestDeviceKey(data: object) {
   return request('/device/suggestDeviceKey', {
     method: 'GET',

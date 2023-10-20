@@ -1,3 +1,4 @@
+import Back from '@/components/Back'
 import { Tabs } from 'antd'
 import type { TabsProps } from 'antd'
 import React from 'react'
@@ -40,8 +41,8 @@ const DeviceDetail: React.FC = () => {
 
   return (
     <div className='bg-white rounded-md pl-4 pr-2 py-6 md:p-6'>
-      <div className='flex'>
-        <span></span>
+      <div className='flex items-center'>
+        <Back></Back>
         <div className='text-lg text-black'>设备详情</div>
       </div>
       <div className='flex items-center mt-6'>

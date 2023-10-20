@@ -28,6 +28,12 @@ export default class Device {
 
   @Get('/list')
   async list(@Query() query: any) {
+    const res = await deviceModel.list(query || {})
+    return ResultUtils.success(res)
+  }
+
+  @Get('/page')
+  async page(@Query() query: any) {
     const { page, size } = query
     const res = await deviceModel.page(page, size)
     return ResultUtils.success(res)

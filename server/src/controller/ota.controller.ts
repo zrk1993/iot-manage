@@ -15,6 +15,7 @@ import {
 import otaModel from '@/model/ota.model'
 import ResultUtils from '@/utils/result-utils'
 import type { TOta } from '@/model/ota.model'
+import uuid from '@/utils/uuid'
 
 @Controller('/ota')
 export default class Ota {
@@ -28,6 +29,21 @@ export default class Ota {
     const id = ctx.params.id
   }
 
+  @Post('/create')
+  async create(@Body() body: any) {
+    const { firmware_id, device_ids } = body
+    const batch_no = uuid()
+    const d = device_ids.map((v: number) => {
+      return {
+        batch_no,
+        firmware_id,
+        device_id: v
+      }
+    })
+    const res = await otaModel.insert(d)
+    return ResultUtils.success(res)
+  }
+
   @Get('/page')
   async page(@Query() query: any) {
     const { page, size } = query
@@ -37,7 +53,8 @@ export default class Ota {
 
   @Get('/list')
   async list(@Query() query: any) {
-    const res = await otaModel.getAll()
+    const { firmware_id } = query
+    const res = await otaModel.list(firmware_id)
     return ResultUtils.success(res)
   }
 

@@ -38,7 +38,12 @@ const routes: RouteProps[] = [
     path: '/ota',
     icon: <ControlFilled />,
     name: 'OTA升级',
-    element: lazyLoad(React.lazy(() => import('@/pages/device')))
+    element: lazyLoad(React.lazy(() => import('@/pages/firmware')))
+  },
+  {
+    path: '/firmware/detail/:id',
+    meta: { hide: true },
+    element: lazyLoad(React.lazy(() => import('@/pages/firmware/detail')))
   },
   {
     path: '/log',

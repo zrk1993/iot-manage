@@ -41,6 +41,16 @@ export class DeviceModel extends BaseModel<TDevice> {
     return this.$db.table(tableName).where({ bemfa_topic }).findOrEmpty()
   }
 
+  async list({ product_id }): Promise<TDevice[]> {
+    const args = []
+    let sql = `SELECT * FROM t_device WHERE 1=1`
+    if (product_id) {
+      sql += ' AND product_id=?'
+      args.push(product_id)
+    }
+    return db.query(sql, args)
+  }
+
   async page(page: number = 1, size: number = 10): Promise<{ data: TDevice[]; total: number }> {
     const args = []
     let sql = `SELECT d.*, p.product_name
