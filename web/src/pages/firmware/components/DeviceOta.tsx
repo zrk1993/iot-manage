@@ -1,4 +1,4 @@
-import { otaDel, otaList } from '@/api/ota'
+import { otaDel, otaDeviceUpgrade, otaList } from '@/api/ota'
 import UpgradeStatus from '@/components/UpgradeStatus'
 import { useRequest } from 'ahooks'
 import { Button, Popconfirm, Space, Table, message as antdMessage } from 'antd'
@@ -80,6 +80,23 @@ const Tsl: React.FC<{ firmware_id: string; onRef: React.RefObject<any> }> = ({ f
           <Popconfirm
             title='提示'
             cancelText='取消'
+            okText='OTA '
+            description='确认推送升级！'
+            onConfirm={async () => {
+              const res = await otaDeviceUpgrade({ ota_id })
+              if (res.code != 0) {
+                return antdMessage.error(res.message)
+              }
+              onSearch()
+            }}
+          >
+            <Button type='primary' size='small'>
+              推送
+            </Button>
+          </Popconfirm>
+          <Popconfirm
+            title='提示'
+            cancelText='取消'
             okText='删除'
             description='确认删除数据！'
             onConfirm={async () => {
@@ -90,7 +107,7 @@ const Tsl: React.FC<{ firmware_id: string; onRef: React.RefObject<any> }> = ({ f
               onSearch()
             }}
           >
-            <Button type='text' danger>
+            <Button type='text' size='small' danger>
               删除
             </Button>
           </Popconfirm>

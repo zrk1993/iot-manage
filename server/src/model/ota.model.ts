@@ -3,7 +3,7 @@ import BaseModel from '@/model/base.model'
 
 export type TOta = {
   ota_id: number
-  product_id: number
+  device_id: number
   firmware_id: number
   batch_no: string
   status: number

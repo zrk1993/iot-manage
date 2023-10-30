@@ -39,7 +39,7 @@ const TslData: React.FC<{ device_id: string }> = ({ device_id }) => {
   ])
 
   useEffect(() => {
-    run({})
+    run({ device_id })
   }, [])
 
   return (

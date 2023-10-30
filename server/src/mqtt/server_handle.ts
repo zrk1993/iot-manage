@@ -3,9 +3,43 @@ import aedes from 'aedes'
 import TslDataModel from '@/model/tsl_data.model'
 import TslModel from '@/model/tsl.model'
 import DeviceModel from '@/model/device.model'
+import OtaModel from '@/model/ota.model'
+
 import { parseTopic } from '@/utils/mtqq-tool'
 
 const map = {
+  // 设备上线
+  '/sys/+/+/thing/event/connect/post': async (packet: AedesPublishPacket) => {
+    const { device_key } = parseTopic(packet.topic)
+    const device = await DeviceModel.getByKey(device_key)
+    if (device) {
+      const payload = JSON.parse(packet.payload.toString())
+      await DeviceModel.updateById(device.device_id, {
+        status: 1,
+        last_time: new Date(),
+        client_ip: payload.client_ip
+      })
+    }
+  },
+  // 设备离线
+  '/sys/+/+/thing/event/disconnect/post': async (packet: AedesPublishPacket) => {
+    const { device_key } = parseTopic(packet.topic)
+    const device = await DeviceModel.getByKey(device_key)
+    if (device) {
+      await DeviceModel.updateById(device.device_id, {
+        status: -1,
+        last_time: new Date()
+      })
+    }
+  },
+  // OTA进度
+  '/ota/device/progress/+/+': async (packet: AedesPublishPacket) => {
+    const payload = JSON.parse(packet.payload.toString())
+    const ota_id = payload.params.ota_id
+    await OtaModel.updateById(ota_id, {
+      progress: payload.progress || 0
+    })
+  },
   // 属性设置
   '/sys/+/+/thing/event/property/post': async (packet: AedesPublishPacket) => {
     const { device_key } = parseTopic(packet.topic)

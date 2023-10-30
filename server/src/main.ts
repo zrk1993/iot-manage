@@ -14,6 +14,8 @@ async function main() {
   app.use(appJwt())
   app.use(errorHandle())
 
+  app.useSwagger(routers)
+
   app.useRouter(routers)
   app.listen(config.SERVER_PORT, () => {
     logger.info('server start on http://localhost:' + config.SERVER_PORT)

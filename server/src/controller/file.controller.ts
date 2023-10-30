@@ -43,8 +43,9 @@ export default class Fl {
     return { code: 0, data: ctx.file.filename }
   }
 
-  @Get('/:id')
+  @Get('/bin/:id')
   async file(@Ctx() ctx: Context) {
-    await send(ctx, './upload/' + ctx.params.id)
+    console.log('123')
+    await send(ctx, './upload/bin/' + ctx.params.id)
   }
 }

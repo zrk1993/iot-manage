@@ -16,6 +16,7 @@ import otaModel from '@/model/ota.model'
 import ResultUtils from '@/utils/result-utils'
 import type { TOta } from '@/model/ota.model'
 import uuid from '@/utils/uuid'
+import * as OtaService from '@/service/ota.service'
 
 @Controller('/ota')
 export default class Ota {
@@ -78,5 +79,11 @@ export default class Ota {
     }
     const result = await otaModel.deleteById(ota.ota_id)
     return ResultUtils.success(result)
+  }
+
+  @Post('/device/upgrade')
+  async upgrade(@Body() body: Pick<TOta, 'ota_id'>) {
+    OtaService.informDevice(body.ota_id)
+    return ResultUtils.success()
   }
 }

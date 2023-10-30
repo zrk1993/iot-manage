@@ -42,21 +42,15 @@ aedes.authenticate = async function (client, productKey, password, callback) {
 
 aedes.on('clientReady', async client => {
   const { product_key, device_key } = parseClientId(client.id)
-  const device = await deviceModel.getByKey(device_key)
-  if (device) {
-    await deviceModel.updateById(device.device_id, {
-      status: 1,
-      last_time: new Date(),
-      client_ip: (client.conn as any).remoteAddress?.replace('::ffff:', '')
-    })
-  }
   aedes.publish(
     {
       cmd: 'publish',
       qos: 1,
       dup: false,
-      topic: `/sys/${product_key}/${device_key}/thing/event/clientReady/post`,
-      payload: 'message',
+      topic: `/sys/${product_key}/${device_key}/thing/event/connect/post`,
+      payload: JSON.stringify({
+        client_ip: (client.conn as any).remoteAddress?.replace('::ffff:', '')
+      }),
       retain: false
     },
     err => {
@@ -67,20 +61,13 @@ aedes.on('clientReady', async client => {
 
 aedes.on('clientDisconnect', async client => {
   const { product_key, device_key } = parseClientId(client.id)
-  const device = await deviceModel.getByKey(device_key)
-  if (device) {
-    await deviceModel.updateById(device.device_id, {
-      status: -1,
-      last_time: new Date()
-    })
-  }
   aedes.publish(
     {
       cmd: 'publish',
       qos: 1,
       dup: false,
       topic: `/sys/${product_key}/${device_key}/thing/event/disconnect/post`,
-      payload: 'message',
+      payload: null,
       retain: false
     },
     err => {
@@ -90,6 +77,22 @@ aedes.on('clientDisconnect', async client => {
 })
 
 serverHandle(aedes)
+
+setInterval(() => {
+  aedes.publish(
+    {
+      cmd: 'publish',
+      qos: 1,
+      dup: false,
+      topic: `/ext/ntp/jdwSdrphKj/D8BFC0FAAC28/response`,
+      payload: JSON.stringify({ id: '1', code: '2', message: '3' }),
+      retain: false
+    },
+    err => {
+      if (err) logger.error(err.message)
+    }
+  )
+}, 5000)
 
 const server = createServer(aedes.handle)
 

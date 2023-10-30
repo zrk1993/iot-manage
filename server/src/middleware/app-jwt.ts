@@ -48,7 +48,10 @@ export const middleware: any = async (ctx: Koa.Context, next: () => Promise<void
 
 export const appJwt = () => {
   middleware.unless = unless
-  return middleware.unless({ method: 'OPTIONS', path: [/^\/static/, /^\/api\/user\/login/] })
+  return middleware.unless({
+    method: 'OPTIONS',
+    path: [/^\/static/, /^\/api\/user\/login/, /^\/api\/file/]
+  })
 }
 
 export default appJwt

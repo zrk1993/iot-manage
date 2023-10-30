@@ -27,3 +27,10 @@ export async function otaDel(data: object) {
     data: data
   })
 }
+
+export async function otaDeviceUpgrade(data: object) {
+  return request('/ota/device/upgrade', {
+    method: 'POST',
+    data: data
+  })
+}
