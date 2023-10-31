@@ -8,26 +8,25 @@
  * 在需要升级的地方，加上这个函数即可，例如setup中加的updateBin(); 
  * 原理：通过http请求获取远程固件，实现升级
  */
-void updateBin(WiFiClient& UpdateClient, PubSubClient& client, String upUrl, String currentVersion){
+void updateBin(WiFiClient& UpdateClient, String upUrl, String currentVersion){
   Serial.println("start update");    
 
   ESPhttpUpdate.onStart([](){
     Serial.println("CALLBACK:  HTTP update process started");
   });
 
-  ESPhttpUpdate.onEnd([&client](){
+  ESPhttpUpdate.onEnd([](){
     Serial.println("CALLBACK:  HTTP update process finished");
-    client.publish(PUB_OTA_DEVICE_PROGRESS_ID.c_str(), "{}");
   });
 
-  ESPhttpUpdate.onProgress([&client](int cur, int total){
+  ESPhttpUpdate.onProgress([](int cur, int total){
     Serial.printf("CALLBACK:  HTTP update process at %d of %d bytes...\n", cur, total);
   });
 
   ESPhttpUpdate.onError([](int err){
     Serial.printf("CALLBACK:  HTTP update fatal error code %d\n", err);
   });
-
+  
   t_httpUpdate_return ret = ESPhttpUpdate.update(UpdateClient, upUrl, currentVersion);
   switch(ret) {
     case HTTP_UPDATE_FAILED:      //当升级失败

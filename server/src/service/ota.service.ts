@@ -7,7 +7,6 @@ import logger from '@/utils/logger'
 export async function informDevice(ota_id: number) {
   const ota = await otaModel.getById(ota_id)
   const device = await deviceModel.getById(ota.device_id)
-  const firmware = await firmwareModel.getById(ota.firmware_id)
   broker.publish(
     {
       cmd: 'publish',
@@ -15,7 +14,7 @@ export async function informDevice(ota_id: number) {
       dup: false,
       topic: `/ota/device/upgrade/${device.product_key}/${device.device_key}`,
       payload: JSON.stringify({
-        url: `http://192.168.200.55:9500/api/file/bin/${firmware.file_uid}`
+        url: `http://192.168.200.55:9500/api/ota/update/${ota_id}`
       }),
       retain: false
     },

@@ -12,22 +12,29 @@ import {
   QuerySchame,
   BodySchame
 } from 'koast'
-import otaModel from '@/model/ota.model'
 import ResultUtils from '@/utils/result-utils'
 import type { TOta } from '@/model/ota.model'
 import uuid from '@/utils/uuid'
+import otaModel from '@/model/ota.model'
+import firmwareModel from '@/model/firmware.model'
+import deviceModel from '@/model/device.model'
 import * as OtaService from '@/service/ota.service'
+const send = require('koa-send')
 
 @Controller('/ota')
 export default class Ota {
   @Get('/update/:id')
-  @Description('get 参数')
   async hi(@Ctx() ctx: Context) {
     // 304 noupdate, 200
-    const currentVersion = ctx.header['x-ESP8266-version']
-    const freeSpace = ctx.header['x-ESP8266-free-space']
-    const sketchSize = ctx.header['x-ESP8266-sketch-size']
-    const id = ctx.params.id
+    // const currentVersion = ctx.header['x-ESP8266-version']
+    // const freeSpace = ctx.header['x-ESP8266-free-space']
+    // const sketchSize = ctx.header['x-ESP8266-sketch-size']
+    const ota_id = ctx.params.id
+    const ota = await otaModel.getById(ota_id)
+    const device = await deviceModel.getById(ota.device_id)
+    const firmware = await firmwareModel.getById(ota.firmware_id)
+    await send(ctx, './upload/bin/' + firmware.file_uid)
+    await otaModel.updateById(ota.ota_id, { status: 1 })
   }
 
   @Post('/create')

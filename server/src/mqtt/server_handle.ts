@@ -35,7 +35,8 @@ const map = {
   // OTA进度
   '/ota/device/progress/+/+': async (packet: AedesPublishPacket) => {
     const payload = JSON.parse(packet.payload.toString())
-    const ota_id = payload.params.ota_id
+    const ota_id = payload.ota_id
+    console.log(payload)
     await OtaModel.updateById(ota_id, {
       progress: payload.progress || 0
     })

@@ -24,7 +24,8 @@ void callback(char* topic, byte* payload, size_t length) {
 		return;
 	}
 	if (SUB_OTA_DEVICE_UPGRADE_ID.equals(topic)) {
-		updateBin(espClient, client, doc["url"].as<const char*>(), "1.0");
+		Serial.printf("%s", doc["url"].as<const char*>());
+		updateBin(espClient, doc["url"].as<const char*>(), "1.0");
 		return;
 	}
 }

@@ -50,7 +50,7 @@ export const appJwt = () => {
   middleware.unless = unless
   return middleware.unless({
     method: 'OPTIONS',
-    path: [/^\/static/, /^\/api\/user\/login/, /^\/api\/file/]
+    path: [/^\/static/, /^\/api\/user\/login/, /^\/api\/file/, /^\/api\/ota\/update/]
   })
 }
 
