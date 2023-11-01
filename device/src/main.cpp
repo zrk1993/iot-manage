@@ -23,8 +23,18 @@ void callback(char* topic, byte* payload, size_t length) {
 	if (SUB_EXT_NTP_ID_RESPONSE.equals(topic)) {
 		return;
 	}
+	if (SUB_SYS_ID_SERVICE_PROPERTY_SET.equals(topic)) {
+		String sw = doc["params"]["sw"];
+		String ld = doc["params"]["ld"];
+		if (sw != "null") {
+			client.publish(PUB_SYS_ID_THING_EVENT_PROPERTY_POST.c_str(), ("{ \"params\": { \"sw\": { \"value\": \"" + sw + "\" } } }").c_str());
+		}
+ 		if (ld != "null") {
+			client.publish(PUB_SYS_ID_THING_EVENT_PROPERTY_POST.c_str(), ("{ \"params\": { \"ld\": { \"value\": \"" + ld + "\" } } }").c_str());
+		}
+		return;
+	}
 	if (SUB_OTA_DEVICE_UPGRADE_ID.equals(topic)) {
-		Serial.printf("%s", doc["url"].as<const char*>());
 		updateBin(espClient, doc["url"].as<const char*>(), "1.0");
 		return;
 	}
@@ -40,7 +50,6 @@ void reconnect() {
 
 			client.subscribe(SUB_OTA_DEVICE_UPGRADE_ID.c_str());
 			client.subscribe(SUB_EXT_NTP_ID_RESPONSE.c_str());
-			client.subscribe(SUB_SYS_ID_THING_EVENT_PROPERTY_POST_REPLY.c_str());
 			client.subscribe(SUB_SYS_ID_SERVICE_PROPERTY_SET.c_str());
 		} else {
 			Serial.print("failed, rc=");

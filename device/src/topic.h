@@ -23,7 +23,8 @@ String SUB_OTA_DEVICE_UPGRADE_ID = "";                    // 固件升级信息�
 String PUB_OTA_DEVICE_PROGRESS_ID = "";                   // 设备上报固件升级进度
 
 String SUB_EXT_NTP_ID_RESPONSE = "";                      // NTP 时钟同步响应
-String SUB_SYS_ID_THING_EVENT_PROPERTY_POST_REPLY = "";   // 云端响应属性上报
+
+String PUB_SYS_ID_THING_EVENT_PROPERTY_POST = "";   // 设备属性上报
 String SUB_SYS_ID_SERVICE_PROPERTY_SET = "";              // 设备属性设置
 
 void initTopicVar () {
@@ -34,7 +35,8 @@ void initTopicVar () {
   PUB_OTA_DEVICE_PROGRESS_ID = "/ota/device/progress/" + id;
 
   SUB_EXT_NTP_ID_RESPONSE = "/ext/ntp/" + id + "/response";
-  SUB_SYS_ID_THING_EVENT_PROPERTY_POST_REPLY = "/sys/" + id + "/thing/event/property/post_reply";
+  
+  PUB_SYS_ID_THING_EVENT_PROPERTY_POST = "/sys/" + id + "/thing/event/property/post";
   SUB_SYS_ID_SERVICE_PROPERTY_SET = "/sys/" + id + "/thing/service/property/set";
 }
 

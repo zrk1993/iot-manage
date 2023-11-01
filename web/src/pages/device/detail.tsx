@@ -54,7 +54,7 @@ const DeviceDetail: React.FC = () => {
           <div className='text-xs text-gray-500 mt-1'>连接状态: 1</div>
         </div>
       </div>
-      <Tabs className='mb-4 mt-5' defaultActiveKey='1' items={tabItems} onChange={onChange} />
+      <Tabs className='mb-4 mt-5' destroyInactiveTabPane defaultActiveKey='1' items={tabItems} onChange={onChange} />
     </div>
   )
 }

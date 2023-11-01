@@ -55,3 +55,10 @@ export async function deviceTslData(data: object) {
     params: data
   })
 }
+
+export async function deviceTslDataSet(data: object) {
+  return request('/device/tsl/data/set', {
+    method: 'POST',
+    data: data
+  })
+}
